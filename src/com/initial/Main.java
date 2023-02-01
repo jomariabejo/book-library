@@ -8,5 +8,9 @@ public class Main {
         CRUD sample = new CRUD();
         sample.printBooksDetails();
         sample.INSERT("Clean Code: A Handbook of Agile Software Craftsmanship","Robert Cecil","Martin","2008","100","464");
+        sample.FindByID("1");
+        sample.FindByID("50");
+
+
     }
 }
