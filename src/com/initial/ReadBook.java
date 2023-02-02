@@ -15,19 +15,11 @@ public class ReadBook {
             Connection conn = null;
             Statement stmt = null;
             try {
-                // Load driver class
                 Class.forName(JDBC_DRIVER);
-                System.out.println("Connecting to database...");
-                // Obtain a connection
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                System.out.println("Creating statement...");
-                // Obtain a statement
                 stmt = conn.createStatement();
                 String query = "SELECT * FROM books1_0 WHERE title = '" + title_input + "'";
                 PreparedStatement sql_start = conn.prepareStatement(query);
-                /**
-                 * Execute the query
-                 **/
                 ResultSet rs = sql_start.executeQuery();
                 boolean result = stmt.execute(query);
 
@@ -76,25 +68,14 @@ public class ReadBook {
     }
     public void FindBookByID(String ID) {
         {
-
             try {
-                // Load driver class
                 Class.forName(JDBC_DRIVER);
-                System.out.println("Connecting to database...");
-                // Obtain a connection
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                System.out.println("Creating statement...");
-                // Obtain a statement
                 stmt = conn.createStatement();
                 String query = "SELECT * FROM books1_0 WHERE id = " + ID;
                 PreparedStatement sql_start = conn.prepareStatement(query);
-                /**
-                 * Execute the query
-                 **/
                 ResultSet rs = sql_start.executeQuery();
                 boolean result = stmt.execute(query);
-
-
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String title = rs.getString("title");
@@ -134,30 +115,19 @@ public class ReadBook {
                     se.printStackTrace();
                 }
             }
-            System.out.println("Thank you for using FINDBYID, Goodbye!");
+            System.out.println("FindBookByID called...");
         }
     }
     public void FindBookByAuthorFullName(String f_name, String l_name) {
         {
-
             try {
-                // Load driver class
                 Class.forName(JDBC_DRIVER);
-                System.out.println("Connecting to database...");
-                // Obtain a connection
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                System.out.println("Creating statement...");
-                // Obtain a statement
                 stmt = conn.createStatement();
                 String query = "SELECT * FROM books1_0 WHERE author_fname = '" + f_name+"' AND author_lname = '" + l_name+"'";
                 PreparedStatement sql_start = conn.prepareStatement(query);
-                /**
-                 * Execute the query
-                 **/
                 ResultSet rs = sql_start.executeQuery();
                 boolean result = stmt.execute(query);
-
-
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String title = rs.getString("title");
@@ -197,7 +167,7 @@ public class ReadBook {
                     se.printStackTrace();
                 }
             }
-            System.out.println("Thank you for using FINDBYID, Goodbye!");
+            System.out.println("FindBookByAuthorFullName called...");
         }
     }
 }
