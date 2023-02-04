@@ -1,5 +1,4 @@
 package com.initial;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -60,7 +59,7 @@ public class Create {
     }
 
     // USER
-    private String userUsername,userFirstName,userLastName,userEmail,userPassword;
+    private String userUsername, userFirstName, userLastName, userEmail, userPassword;
     public String getTitle() {
         return title;
     }
@@ -108,7 +107,7 @@ public class Create {
     public void setPages(String pages) {
         this.pages = pages;
     }
-    public void InsertBook(){
+    public void InsertBook() {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -121,11 +120,9 @@ public class Create {
 
             int rowsAffected = stmt.executeUpdate(sql);
             System.out.println(rowsAffected + " row(s) affected.");
-        }
-        catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -139,7 +136,7 @@ public class Create {
         }
         System.out.println("Thank you for INSERTING new BOOK data, Goodbye!");
     }
-    public void InsertUser(){
+    public void InsertUser() {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -152,11 +149,9 @@ public class Create {
 
             int rowsAffected = stmt.executeUpdate(sql);
             System.out.println(rowsAffected + " row(s) affected.");
-        }
-        catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
 
-        }
-        finally {
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -170,7 +165,7 @@ public class Create {
         }
         System.out.println("Thank you for INSERTING new USER data, Goodbye!");
     }
-    public void resetBooksAttributes(){
+    public void resetBooksAttributes() {
         setTitle(null);
         setPages(null);
         setAuthor_lname(null);
@@ -178,7 +173,7 @@ public class Create {
         setPages(null);
         System.out.println("Attributes set to NULL");
     }
-    public void resetUsersAttributes(){
+    public void resetUsersAttributes() {
         setTitle(null);
         setPages(null);
         setAuthor_lname(null);
