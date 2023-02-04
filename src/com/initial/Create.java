@@ -171,14 +171,14 @@ public class Create {
         setAuthor_lname(null);
         setAuthor_fname(null);
         setPages(null);
-        System.out.println("Attributes set to NULL");
+        System.out.println("Book Attributes set to NULL");
     }
     public void resetUsersAttributes() {
-        setTitle(null);
-        setPages(null);
-        setAuthor_lname(null);
-        setAuthor_fname(null);
-        setPages(null);
-        System.out.println("Attributes set to NULL");
+        setUserUsername(null);
+        setUserFirstName(null);
+        setUserLastName(null);
+        setUserEmail(null);
+        setUserPassword(null);
+        System.out.println("User Attributes set to NULL");
     }
 }
