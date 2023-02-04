@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UpdateBook {
+public class Update {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/books";
 
@@ -13,7 +13,7 @@ public class UpdateBook {
     static final String PASS = "";
 
 
-    public void UpdateData(String updateID, String title, String author_fname , String author_lname,String released_year, String stock_quantity, String pages){
+    public void UpdateBook(String updateID, String title, String author_fname , String author_lname,String released_year, String stock_quantity, String pages){
         Connection conn = null;
         Statement stmt = null;
         try {

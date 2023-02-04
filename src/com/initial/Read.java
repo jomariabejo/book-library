@@ -1,7 +1,7 @@
 package com.initial;
 import java.sql.*;
 
-public class ReadBook {
+public class Read {
     Connection conn = null;
     Statement stmt = null;
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -169,5 +169,54 @@ public class ReadBook {
             }
             System.out.println("FindBookByAuthorFullName called...");
         }
+    }
+    public String FindUser(String username, String password) throws ClassNotFoundException, SQLException {
+        {
+            String resultConcat=null;
+            try {
+                Class.forName(JDBC_DRIVER);
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                stmt = conn.createStatement();
+                String query = "SELECT username FROM users WHERE username = '" + username+"' AND password = '" + password+"'";
+//                SELECT * FROM books1_0 WHERE username = 'jomariabejo' AND authorlname = 'helloworld';
+
+                PreparedStatement sql_start = conn.prepareStatement(query);
+                ResultSet rs = sql_start.executeQuery();
+                boolean result = stmt.execute(query);
+                while (rs.next()) {
+                    resultConcat = rs.getString("username");
+                }
+                if (result) {
+                    System.out.println("Query executed successfully");
+                } else {
+                    System.out.println("Query failed to execute");
+                }
+                rs.close();
+                stmt.close();
+                conn.close();
+            } catch (Exception se) {
+                se.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                } catch (SQLException ignored) {
+                }
+                try {
+                    if (conn != null) conn.close();
+                } catch (SQLException se) {
+                    se.printStackTrace();
+                }
+            }
+            System.out.println("FindBookByAuthorFullName called...");
+            if (resultConcat==null) resultConcat="!FOUND";
+            else resultConcat = "FOUND";
+            return resultConcat;
+        }
+    }
+}
+class test {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Read basa = new Read();
+        System.out.println(basa.FindUser("jomariabejoo","helloworld"));
     }
 }

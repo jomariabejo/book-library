@@ -2,7 +2,7 @@ package com.initial;
 
 import java.sql.*;
 
-public class DeleteBook {
+public class Delete {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/books";
 
@@ -11,7 +11,7 @@ public class DeleteBook {
 
     Connection conn = null;
     Statement stmt = null;
-    public void ByID(String ID)
+    public void BookByID(String ID)
     {
         {
             try {

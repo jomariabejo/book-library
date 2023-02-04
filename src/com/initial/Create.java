@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CreateBook {
+public class Create {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/books";
 
@@ -64,7 +64,7 @@ public class CreateBook {
     public void setPages(String pages) {
         this.pages = pages;
     }
-    public void NOW(){
+    public void InsertBook(){
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -95,7 +95,7 @@ public class CreateBook {
         }
         System.out.println("Thank you for INSERTING new data, Goodbye!");
     }
-    public void RESETAtrributes(){
+    public void resetBooksAttributes(){
         setTitle(null);
         setPages(null);
         setAuthor_lname(null);
