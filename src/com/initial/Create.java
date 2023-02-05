@@ -136,6 +136,21 @@ public class Create {
         }
         System.out.println("Thank you for INSERTING new BOOK data, Goodbye!");
     }
+
+    public String getCheckIfExist() {
+        return checkIfExist;
+    }
+
+    public void setCheckIfExist(String checkIfExist) {
+        this.checkIfExist = checkIfExist;
+    }
+
+    public String theCheckIfExist() {
+        return getCheckIfExist();
+    }
+    public String checkIfExist = null;
+
+
     public void InsertUser() {
         Connection conn = null;
         Statement stmt = null;
@@ -150,7 +165,8 @@ public class Create {
             int rowsAffected = stmt.executeUpdate(sql);
             System.out.println(rowsAffected + " row(s) affected.");
         } catch (ClassNotFoundException | SQLException e) {
-
+            setCheckIfExist(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             try {
                 if (stmt != null) {
@@ -173,7 +189,7 @@ public class Create {
         setPages(null);
         System.out.println("Book Attributes set to NULL");
     }
-    public void resetUsersAttributes() {
+    public void resetUsersAttributes(String username) {
         setUserUsername(null);
         setUserFirstName(null);
         setUserLastName(null);
