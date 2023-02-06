@@ -1,21 +1,22 @@
 package com.initial.GUI_LoginandRegister;
 
 import com.initial.Create;
+import com.initial.Read;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Register extends JFrame {
-    private JTextField fName_txtField;
-    private JTextField lName_txtField;
-    private JTextField eMail_txtField;
-    private JButton registerButton;
-    private JButton backToLoginButton;
-    private JPanel panelMain;
-    private JPasswordField passwordField_password;
-    private JPasswordField passwordField_Confirm;
-    private JTextField username_txtField;
+    public JTextField fName_txtField;
+    public JTextField lName_txtField;
+    public JTextField eMail_txtField;
+    public JButton registerButton;
+    public JButton backToLoginButton;
+    public JPanel panelMain;
+    public JPasswordField passwordField_password;
+    public JPasswordField passwordField_Confirm;
+    public JTextField username_txtField;
 
     public Register() {
 
@@ -29,45 +30,6 @@ public class Register extends JFrame {
         setLocationRelativeTo(null);
         setVisible(false);
 
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Create create = new Create();
-                System.out.println(create.theCheckIfExist());
 
-                if (String.valueOf(passwordField_password.getPassword()).equals(String.valueOf(passwordField_Confirm.getPassword()))) {
-                    create.setUserUsername(username_txtField.getText());
-                    create.setUserFirstName(fName_txtField.getText());
-                    create.setUserLastName(lName_txtField.getName());
-                    create.setUserEmail(eMail_txtField.getText());
-                    create.setUserPassword(String.valueOf(passwordField_password.getPassword()));
-                    create.InsertUser();
-
-                    /*
-                        Account Already Exist
-                     */
-                    if (create.getCheckIfExist() != null) {
-                        JOptionPane.showMessageDialog(panelMain, "Account Exist");
-                    }
-                    /*
-                        Account Successfuly Registered to Database
-                     */
-                    if (create.getCheckIfExist() == null) {
-                        JOptionPane.showMessageDialog(panelMain, "Successfully Registered");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(panelMain, "Password didn't match");
-                }
-
-            }
-        });
-        backToLoginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Back to Login");
-                dispose();
-                Login login = new Login();
-            }
-        });
     }
 }
