@@ -91,15 +91,43 @@ public class Main {
         register.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //All text fields must have values.
-                //Passwords must be unique.
-                //Check to see if an account exists.
+                create.setUserUsername(register.username_txtField.getText());
+//                1.)   All text fields must have values.
+//                2.)   Passwords must be the same.
+//                3.)   INSERT QUERY
+
+                /*
+                 *  ->  There should be no empty textfields.
+                 */
                 if (register.username_txtField.getText().equals("") || register.fName_txtField.getText().equals("") || register.lName_txtField.getText().equals("") || register.eMail_txtField.getText().equals("")) {
                     System.out.println("Please fill out all text fields.");
+                    JOptionPane.showMessageDialog(login.getPanelMain(),"Please fill out all text fields.");
                 }
+                /*
+                 *  ->  Check to see if the password and confirmation password fields have the same values.
+                 */
                 if (String.valueOf(register.passwordField_password.getPassword()).equals(String.valueOf(register.passwordField_Confirm.getPassword()))){
+                    /*
+                     *  ->  Check to see if the user has already entered values into textfields.
+                     */
+
                     if (!register.username_txtField.getText().equals("") && !register.fName_txtField.getText().equals("") && !register.lName_txtField.getText().equals("") && !register.eMail_txtField.getText().equals("")) {
                         System.out.println("Query Here, Check if duplicated or not");
+                        /*
+                         *  ->  INSERT QUERY
+                         */
+                        create.InsertUser();
+                        /*
+                         *  ->  Check to see if an account already exists; otherwise, register was successful.
+                         */
+                        if (create.getDuplicate().equals("Duplicate entry '"+create.getUserUsername()+"' for key 'username'")){
+                            System.out.println("Duplicate Entry");
+                            JOptionPane.showMessageDialog(login.getPanelMain(),"Account Already Exist");
+                        }
+                        else {
+                            System.out.println("Success");
+                            JOptionPane.showMessageDialog(login.getPanelMain(),"Registered Successfully");}
+                        create.resetUsersAttributes();
                     }
                 }
                 else {
