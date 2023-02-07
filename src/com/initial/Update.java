@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Update {
+    Connection conn = null;
+    Statement stmt = null;
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/books";
 
@@ -14,8 +16,6 @@ public class Update {
 
 
     public void UpdateBook(String updateID, String title, String author_fname , String author_lname,String released_year, String stock_quantity, String pages){
-        Connection conn = null;
-        Statement stmt = null;
         try {
             // Load driver class
             Class.forName(JDBC_DRIVER);
@@ -26,6 +26,40 @@ public class Update {
             // Obtain a statement
             stmt = conn.createStatement();
             String sql = "UPDATE `books1_0` SET `title` = '" + title + "' , `author_fname`='" + author_fname+"', `author_lname` = '" + author_lname +"', `released_year` = '"+ released_year +"', `stock_quantity`='"+ stock_quantity+"', `pages` = '" +pages+"' WHERE id = "+updateID;
+            stmt.executeUpdate(sql);
+            stmt.close();
+            conn.close();
+        } catch (Exception se) {
+            se.printStackTrace();
+        }
+        finally {
+            try {
+                if (stmt != null) stmt.close();
+            }
+            catch (SQLException ignored) {}
+            try {
+                if (conn != null) conn.close();
+            }
+            catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        System.out.println("DATA has been UPDATED, Goodbye!");
+    }
+
+    public void UpdateUser(int id, String username, String firstname, String lastname, String email, String password){
+        try {
+            // Load driver class
+            Class.forName(JDBC_DRIVER);
+            System.out.println("Connecting to database...");
+            // Obtain a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("Creating statement...");
+            // Obtain a statement
+            stmt = conn.createStatement();
+            String sql = "UPDATE `users` SET `firstname` = '" + firstname + "' , `lastname`='" + lastname+"', `username` = '" + username +"', `email` = '"+ email +"', `password`='"+ password+"'" + "WHERE id ='"+ id+"'";
+//                        UPDATE `users` SET `firstname` = 'jom' , `lastname`='abejo', `username` = 'jomsarabe'  , `email` = 'jomariabejo@gmail.com', `password`= '1234'  WHERE id = '1'
+            System.out.println(sql);
             stmt.executeUpdate(sql);
             stmt.close();
             conn.close();
