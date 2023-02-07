@@ -1,14 +1,81 @@
 package com.initial;
+import com.initial.GUI_LoginandRegister.Profile;
+
+import javax.swing.*;
 import java.sql.*;
+import java.util.Set;
 
 public class Read {
-    Connection conn = null;
-    Statement stmt = null;
+    static Connection conn = null;
+    static Statement stmt = null;
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/books";
 
     static final String USER = "root";
     static final String PASS = "";
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // TO update profiles we need to get the data of user after it logged in, so basically
+    // if the user click the profile, what will happen is that the labels their
+    // will be updated to the user information...
+    public int id;
+    public String username, firstname, lastname, email, date, password;
 
     public void FindBookByTitle(String title_input) {
         {
@@ -170,7 +237,7 @@ public class Read {
             System.out.println("FindBookByAuthorFullName called...");
         }
     }
-    public String FindUser(String username, String password) throws ClassNotFoundException, SQLException {
+    public static String FindUser(String username, String password) throws ClassNotFoundException, SQLException {
         {
             String resultConcat=null;
             try {
@@ -213,10 +280,75 @@ public class Read {
             return resultConcat;
         }
     }
-}
-class test {
+    public void setAccount(String input_username) {
+        {
+            try {
+                Class.forName(JDBC_DRIVER);
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                stmt = conn.createStatement();
+                String query = "SELECT * FROM users WHERE username = '" + input_username+"'";
+                PreparedStatement sql_start = conn.prepareStatement(query);
+                ResultSet rs = sql_start.executeQuery();
+                boolean result = stmt.execute(query);
+                while (rs.next()) {
+                    // 02/06/2023
+                    int id = rs.getInt("id");
+                    String username = rs.getString("username");
+                    String firstname= rs.getString("firstname");
+                    String lastname = rs.getString("lastname");
+                    String email    = rs.getString("email");
+                    String date     = rs.getString("date");
+                    String password = rs.getString("password");
+
+                    setId(id);
+                    setUsername(username);
+                    setFirstname(firstname);
+                    setLastname(lastname);
+                    setEmail(email);
+                    setDate(date);
+                    setPassword(password);
+                }
+
+                if (result) {
+                    System.out.println("Query executed successfully");
+                } else {
+                    System.out.println("Query failed to execute");
+                }
+                rs.close();
+                stmt.close();
+                conn.close();
+            }
+            catch (Exception se) {
+                se.printStackTrace();
+            }
+            finally {
+                try {
+                    if (stmt != null) stmt.close();
+                }
+
+                catch (SQLException ignored) {}
+                try {
+                    if (conn != null) conn.close();
+                }
+                catch (SQLException se) {
+                    se.printStackTrace();
+                }
+            }
+            System.out.println("SetAccount called...");
+        }
+    }
+    public void getAccount(){
+        System.out.println("ID          = " + getId());
+        System.out.println("Username    = " + getUsername());
+        System.out.println("First Name  = " + getFirstname());
+        System.out.println("Last Name   = " + getLastname());
+        System.out.println("Email       = " + getEmail() );
+        System.out.println("Date Joined = " + getDate());
+        System.out.println("Get account called");
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Read basa = new Read();
-        System.out.println(basa.FindUser("jomariabejoo","helloworld"));
+        Read read = new Read();
+        System.out.println(FindUser("jomariabejo","helloworld"));
     }
 }
