@@ -89,6 +89,10 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 create.setUserUsername(register.username_txtField.getText());
+                create.setUserFirstName(register.fName_txtField.getText());
+                create.setUserLastName(register.lName_txtField.getText());
+                create.setUserEmail(register.eMail_txtField.getText());
+                create.setUserPassword(String.valueOf(register.passwordField_Confirm.getPassword()));
                 //                1.)   All text fields must have values.
                 //                2.)   Passwords must be the same.
                 //                3.)   INSERT QUERY
@@ -124,7 +128,7 @@ public class Main {
                             System.out.println("Success");
                             JOptionPane.showMessageDialog(login.getPanelMain(), "Registered Successfully");
                         }
-                        create.resetUsersAttributes();
+//                        create.resetUsersAttributes();
                     }
                 } else {
                     System.out.println("The password did not match.");
@@ -161,6 +165,12 @@ public class Main {
                 profile.getfName_label().setText(read.getFirstname());
                 profile.getlName_label().setText(read.getLastname());
                 profile.geteMail_label().setText(read.getEmail());
+                profile.getPasswordField().setText(read.getPassword());
+                profile.getUsername_label().setEditable(false);
+                profile.getfName_label().setEditable(false);
+                profile.getlName_label().setEditable(false);
+                profile.geteMail_label().setEditable(false);
+                profile.getPasswordField().setEditable(false);
                 profile.setVisible(true);
                 userHomepage.dispose();
             }
@@ -210,6 +220,42 @@ public class Main {
             }
         });
 
+        profile.getEditButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Edit Clicked");
+
+                profile.getUsername_label().setEditable(true);
+                profile.getfName_label().setEditable(true);
+                profile.getlName_label().setEditable(true);
+                profile.geteMail_label().setEditable(true);
+                profile.getPasswordField().setEditable(true);
+            }
+        });
+
+        profile.getSaveButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Show Button Clicked");
+
+                read.setUsername(profile.getUsername_label().getText());
+                read.setFirstname(profile.getfName_label().getText());
+                read.setLastname(profile.getlName_label().getText());
+                read.setEmail(profile.geteMail_label().getText());
+                read.setPassword(String.valueOf(profile.getPasswordField().getPassword()));
+
+                update.UpdateUser(read.getId(),read.getUsername(),read.getFirstname(),read.getLastname(),read.getEmail(),read.getPassword());
+                JOptionPane.showMessageDialog(profile.getPanelMain(),"Your account successfully updated.");
+                profile.getUsername_label().setEditable(false);
+                profile.getfName_label().setEditable(false);
+                profile.getlName_label().setEditable(false);
+                profile.geteMail_label().setEditable(false);
+                profile.getPasswordField().setEditable(false);
+
+            }
+        });
 /*
  *  PROFILE END
  */
