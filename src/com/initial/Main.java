@@ -27,9 +27,9 @@ public class Main {
         Profile profile = new Profile();
         UserHomepage userHomepage = new UserHomepage();
 
-        /*
-         *  LOGIN START
-         */
+/*
+ *  LOGIN START
+ */
 
         login.pack();
         ImageIcon img = new ImageIcon("C:\\Users\\Prila\\jdbc\\src\\others\\icon.png");
@@ -39,6 +39,7 @@ public class Main {
         login.setSize(400, 600);
         login.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         login.setLocationRelativeTo(null);
+        login.dispose();
         login.setVisible(true);
 
         login.loginButton.addActionListener(new ActionListener() {
@@ -49,15 +50,16 @@ public class Main {
                 System.out.println("Login Clicked");
                 try {
                     Read.FindUser(username, password);
-                    if (Read.FindUser(username, password) == "!FOUND") {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "ACCOUNT NOT FOUND");
-                    } else {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "ACCOUNT FOUND");
-                        Read.setAccount(username);
+                    if (Read.FindUser(username, password).equals("!FOUND")) {
+                        JOptionPane.showMessageDialog(login.getPanelMain(), "Login Failed");
+                    }
+                    if (Read.FindUser(username, password).equals("FOUND")) {
+                        JOptionPane.showMessageDialog(login.getPanelMain(), "Login Success");
+                        read.setAccount(username);
+                        userHomepage.getLabel_username().setText(username);
                         login.setVisible(false);
                         userHomepage.setVisible(true);
                     }
-                    System.out.println(Read.FindUser(username, password));
                 } catch (ClassNotFoundException | SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -72,41 +74,36 @@ public class Main {
             }
         });
 
-        /*
-         *  LOGIN END
-         */
+/*
+ *  LOGIN END
+ */
 
 
+//********************************************************************************************
 
-
-
-
-
-
-
-        /*
-         *  REGISTER START
-         */
+/*
+ *  REGISTER START
+ */
 
         register.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 create.setUserUsername(register.username_txtField.getText());
-//                1.)   All text fields must have values.
-//                2.)   Passwords must be the same.
-//                3.)   INSERT QUERY
+                //                1.)   All text fields must have values.
+                //                2.)   Passwords must be the same.
+                //                3.)   INSERT QUERY
 
                 /*
                  *  ->  There should be no empty textfields.
                  */
                 if (register.username_txtField.getText().equals("") || register.fName_txtField.getText().equals("") || register.lName_txtField.getText().equals("") || register.eMail_txtField.getText().equals("")) {
                     System.out.println("Please fill out all text fields.");
-                    JOptionPane.showMessageDialog(login.getPanelMain(),"Please fill out all text fields.");
+                    JOptionPane.showMessageDialog(login.getPanelMain(), "Please fill out all text fields.");
                 }
                 /*
                  *  ->  Check to see if the password and confirmation password fields have the same values.
                  */
-                if (String.valueOf(register.passwordField_password.getPassword()).equals(String.valueOf(register.passwordField_Confirm.getPassword()))){
+                if (String.valueOf(register.passwordField_password.getPassword()).equals(String.valueOf(register.passwordField_Confirm.getPassword()))) {
                     /*
                      *  ->  Check to see if the user has already entered values into textfields.
                      */
@@ -120,17 +117,16 @@ public class Main {
                         /*
                          *  ->  Check to see if an account already exists; otherwise, register was successful.
                          */
-                        if (create.getDuplicate().equals("Duplicate entry '"+create.getUserUsername()+"' for key 'username'")){
+                        if (create.getDuplicate().equals("Duplicate entry '" + create.getUserUsername() + "' for key 'username'")) {
                             System.out.println("Duplicate Entry");
-                            JOptionPane.showMessageDialog(login.getPanelMain(),"Account Already Exist");
-                        }
-                        else {
+                            JOptionPane.showMessageDialog(login.getPanelMain(), "Account Already Exist");
+                        } else {
                             System.out.println("Success");
-                            JOptionPane.showMessageDialog(login.getPanelMain(),"Registered Successfully");}
+                            JOptionPane.showMessageDialog(login.getPanelMain(), "Registered Successfully");
+                        }
                         create.resetUsersAttributes();
                     }
-                }
-                else {
+                } else {
                     System.out.println("The password did not match.");
                 }
             }
@@ -145,9 +141,78 @@ public class Main {
             }
         });
 
-        /*
-         *  REGISTER END
-         */
+/*
+ *  REGISTER END
+ */
+
+
+//********************************************************************************************
+
+
+/*
+ *  USER HOME PAGE START
+ */
+        //  Profile Button
+        userHomepage.getProfileButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Profile Button Clicked");
+                profile.getUsername_label().setText(read.getUsername());
+                profile.getfName_label().setText(read.getFirstname());
+                profile.getlName_label().setText(read.getLastname());
+                profile.geteMail_label().setText(read.getEmail());
+                profile.setVisible(true);
+                userHomepage.dispose();
+            }
+        });
+
+        userHomepage.getLogoutButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Logout Clicked");
+                login.setVisible(true);
+                userHomepage.dispose();
+            }
+        });
+        userHomepage.getShowBooksButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Show Books Clicked");
+            }
+        });
+        userHomepage.getBorrowBookButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Borrow Books Clicked");
+            }
+        });
+        userHomepage.getReturnBookButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Return Books Clicked");
+            }
+        });
+/*
+ *  USER HOME PAGE END
+ */
+
+/*
+ *  PROFILE START
+ */
+
+        profile.getBackButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.print("-->>" + read.getUsername());
+                System.out.println("Go Back Clicked");
+                userHomepage.setVisible(true);
+                profile.dispose();
+            }
+        });
+
+/*
+ *  PROFILE END
+ */
 
     };
 }
