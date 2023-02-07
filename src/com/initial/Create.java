@@ -150,7 +150,7 @@ public class Create {
     }
     public String checkIfExist = null;
 
-
+    public String duplicate = "";
     public void InsertUser() {
         Connection conn = null;
         Statement stmt = null;
@@ -164,9 +164,11 @@ public class Create {
 
             int rowsAffected = stmt.executeUpdate(sql);
             System.out.println(rowsAffected + " row(s) affected.");
+            this.duplicate = "";
         } catch (ClassNotFoundException | SQLException e) {
             setCheckIfExist(e.getMessage());
-            System.out.println(e.getMessage());
+            this.duplicate = e.getMessage();
+            System.out.println(this.duplicate);
         } finally {
             try {
                 if (stmt != null) {
@@ -179,7 +181,6 @@ public class Create {
                 e.printStackTrace();
             }
         }
-        System.out.println("Thank you for INSERTING new USER data, Goodbye!");
     }
     public void resetBooksAttributes() {
         setTitle(null);
@@ -189,12 +190,22 @@ public class Create {
         setPages(null);
         System.out.println("Book Attributes set to NULL");
     }
-    public void resetUsersAttributes(String username) {
+
+    public String getDuplicate() {
+        return duplicate;
+    }
+
+    public void setDuplicate(String duplicate) {
+        this.duplicate = duplicate;
+    }
+
+    public void resetUsersAttributes() {
         setUserUsername(null);
         setUserFirstName(null);
         setUserLastName(null);
         setUserEmail(null);
         setUserPassword(null);
+        setDuplicate("");
         System.out.println("User Attributes set to NULL");
     }
 }
