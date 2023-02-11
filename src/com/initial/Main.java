@@ -1,9 +1,6 @@
 package com.initial;
 
-import com.initial.GUI_LoginandRegister.Login;
-import com.initial.GUI_LoginandRegister.Profile;
-import com.initial.GUI_LoginandRegister.Register;
-import com.initial.GUI_LoginandRegister.UserHomepage;
+import com.initial.GUI_LoginandRegister.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +24,8 @@ public class Main {
         Profile profile = new Profile();
         UserHomepage userHomepage = new UserHomepage();
 
+        ShowBooks showBooks = new ShowBooks();
+
 /*
  *  LOGIN START
  */
@@ -41,13 +40,11 @@ public class Main {
         login.setLocationRelativeTo(null);
         login.dispose();
         login.setVisible(true);
-
         login.loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = login.txtField_username.getText();
                 String password = String.valueOf(login.txtField_password.getPassword());
-                System.out.println("Login Clicked");
                 try {
                     Read.FindUser(username, password);
                     if (Read.FindUser(username, password).equals("!FOUND")) {
@@ -124,7 +121,8 @@ public class Main {
                         if (create.getDuplicate().equals("Duplicate entry '" + create.getUserUsername() + "' for key 'username'")) {
                             System.out.println("Duplicate Entry");
                             JOptionPane.showMessageDialog(login.getPanelMain(), "Account Already Exist");
-                        } else {
+                        }
+                        else {
                             System.out.println("Success");
                             JOptionPane.showMessageDialog(login.getPanelMain(), "Registered Successfully");
                         }
@@ -132,6 +130,7 @@ public class Main {
                     }
                 } else {
                     System.out.println("The password did not match.");
+                    JOptionPane.showMessageDialog(login.getPanelMain(),"Password != ");
                 }
             }
         });
@@ -181,15 +180,28 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Logout Clicked");
                 login.setVisible(true);
+                login.getTxtField_username().setText("");
+                login.getTxtField_password().setText("");
+                read.setId(0);
+                read.setDate("");
+                read.setEmail("");
+                read.setFirstname("");
+                read.setLastname("");
+                read.setUsername("");
+                read.setPassword("");
                 userHomepage.dispose();
             }
         });
         userHomepage.getShowBooksButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String [][] globalVariable = null;
                 System.out.println("Show Books Clicked");
-            }
-        });
+                showBooks.setVisible(true);
+                userHomepage.dispose();
+
+                }
+            });
         userHomepage.getBorrowBookButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -245,20 +257,52 @@ public class Main {
                 read.setLastname(profile.getlName_label().getText());
                 read.setEmail(profile.geteMail_label().getText());
                 read.setPassword(String.valueOf(profile.getPasswordField().getPassword()));
-
                 update.UpdateUser(read.getId(),read.getUsername(),read.getFirstname(),read.getLastname(),read.getEmail(),read.getPassword());
-                JOptionPane.showMessageDialog(profile.getPanelMain(),"Your account successfully updated.");
-                profile.getUsername_label().setEditable(false);
-                profile.getfName_label().setEditable(false);
-                profile.getlName_label().setEditable(false);
-                profile.geteMail_label().setEditable(false);
-                profile.getPasswordField().setEditable(false);
 
+                if (update.getDuplicate() .equals("Duplicate entry '" + read.getUsername() + "' for key 'username'")){
+                    JOptionPane.showMessageDialog(profile.getPanelMain(),"Username already exist.");
+                }
+                else {
+                    JOptionPane.showMessageDialog(profile.getPanelMain(),"Your account successfully updated.");
+                    userHomepage.getLabel_username().setText(read.getUsername());
+                    profile.getUsername_label().setEditable(false);
+                    profile.getfName_label().setEditable(false);
+                    profile.getlName_label().setEditable(false);
+                    profile.geteMail_label().setEditable(false);
+                    profile.getPasswordField().setEditable(false);
+                }
             }
         });
 /*
  *  PROFILE END
  */
 
+
+/*
+ *  Shoow Books Start
+ */
+        showBooks.getBorrowButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Borrow Book Clicked");
+            }
+        });
+        showBooks.getBorrowButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Return Book Clicked");
+            }
+        });
+        showBooks.getGoBackButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go back Clicked");
+                userHomepage.setVisible(true);
+                showBooks.dispose();
+            }
+        });
+/*
+ *  Shoow Books End
+ */
     };
 }

@@ -1,13 +1,19 @@
 package com.initial.GUI_LoginandRegister;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
 
-public class ShowBooks extends JFrame{
+public class ShowBooks extends JFrame {
+    static Connection conn = null;
+    static Statement stmt = null;
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/books";
+
+    static final String USER = "root";
+    static final String PASS = "";
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -57,94 +63,66 @@ public class ShowBooks extends JFrame{
 
     private JScrollPane ScrollPane;
 
-    ShowBooks(){
-        String[][] rec = {
-                { "001", "David", "AUS" },
-                { "002", "Steve", "AUS" },
-                { "003", "Yuvraj", "IND" },
-                { "004", "Kane", "NZ" },
-                { "005", "Ben", "ENG" },
-                { "006", "Eion", "ENG" },
-                { "007", "Miller", "SA" },
-                { "008", "Rohit", "IND" },
-                { "001", "David", "AUS" },
-                { "002", "Steve", "AUS" },
-                { "003", "Yuvraj", "IND" },
-                { "004", "Kane", "NZ" },
-                { "005", "Ben", "ENG" },
-                { "006", "Eion", "ENG" },
-                { "007", "Miller", "SA" },
-                { "008", "Rohit", "IND" },
-                { "001", "David", "AUS" },
-                { "002", "Steve", "AUS" },
-                { "003", "Yuvraj", "IND" },
-                { "004", "Kane", "NZ" },
-                { "005", "Ben", "ENG" },
-                { "006", "Eion", "ENG" },
-                { "007", "Miller", "SA" },
-                { "008", "Rohit", "IND" },
-                { "001", "David", "AUS" },
-                { "002", "Steve", "AUS" },
-                { "003", "Yuvraj", "IND" },
-                { "004", "Kane", "NZ" },
-                { "005", "Ben", "ENG" },
-                { "006", "Eion", "ENG" },
-                { "007", "Miller", "SA" },
-                { "008", "Rohit", "IND" }
+    public JButton getGoBackButton() {
+        return goBackButton;
+    }
+
+    public void setGoBackButton(JButton goBackButton) {
+        this.goBackButton = goBackButton;
+    }
+
+    private JButton goBackButton;
+    private String[][] dataMain;
+
+    public String[][] getDataMain() {
+        return dataMain;
+    }
+
+    public void setDataMain(String[][] dataMain) {
+        this.dataMain = dataMain;
+    }
+
+    public ShowBooks() throws SQLException, ClassNotFoundException {
+        ImageIcon img = new ImageIcon("C:\\Users\\Prila\\jdbc\\src\\others\\icon.png");
+        String[] headers = {
+                "ID",
+                "Title",
+                "Released Year",
+                "Stock Qty"
         };
 
-        String header [] = {"Id", "Player", "Team"};
-//        DefaultTableModel dtm = (DefaultTableModel)getJtable().getModel();
-//        dtm.addRow(rec);
-//        dtm.getColumnCount();
 
+// sql start
+        // Set up database connection
+        Class.forName(JDBC_DRIVER);
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        stmt = conn.createStatement();
+        // Create a Statement object with a scrollable cursor
+        Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        // Execute the query and store the result in a ResultSet
+        ResultSet rs = stmt.executeQuery("SELECT id, title, released_year, stock_quantity FROM books1_0");
+        // Determine the number of rows in the ResultSet
+        rs.last();
+        System.out.println(rs.last());
+        int numRows = rs.getRow();
+        rs.beforeFirst();
+        // Initialize multidimensional array
+        String[][] data = new String[numRows][4];
 
-        ImageIcon img = new ImageIcon("C:\\Users\\Prila\\jdbc\\src\\others\\icon.png");
-//sample start
-//        Font font = new Font("Verdana", Font.PLAIN, 12);
-//        JTable table = new JTable(rec,header);
-//        table.setFont(font);
-//        table.setRowHeight(30);
-//        table.setBackground(Color.blue);
-//        table.setForeground(Color.white);
-//        table.setTableHeader(null);
-//        JFrame frame = new JFrame();
-//        frame.add(new JScrollPane(table));
-//
-//
-//        frame.pack();
-//        frame.setIconImage(img.getImage());
-//        frame.setTitle("Jomari Abejo");
-//        frame.setSize(400, 600);
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        frame.setLocationRelativeTo(null);
-//        frame.dispose();
-//        frame.setVisible(true);
-//sample end
+        // Iterate through the ResultSet and store the values in the array
+        int row = 0;
+        while (rs.next()) {
+            data[row][0] = rs.getString("id");
+            data[row][1] = rs.getString("title");
+            data[row][2] = rs.getString("released_year");
+            data[row][3] = rs.getString("stock_quantity");
+            row++;
+        }
+// sql end
 
-
-//DefaultTableModel dtm = (DefaultTableModel)getJtable().getModel();
-
-
-//        TableModel dataModel = new
-//                AbstractTableModel() {
-//                    public int getColumnCount() {
-//                        return 10;
-//                    }
-//
-//                    public int getRowCount() {
-//                        return 10;
-//                    }
-//
-//                    public Object getValueAt(int row, int col) {
-//                        return row * col;
-//                    }
-//                };
-
-        String[] cols = {"Col 1", "Col2"};
-        String[][] data = {{"Hello", "World"},{"Hello", "World"}};
-        DefaultTableModel model = new DefaultTableModel(data,cols);
+        DefaultTableModel model = new DefaultTableModel(data, headers);
         getBookslist().setModel(model);
+        getScrollPane().getViewport().add(getBookslist());
         pack();
         setIconImage(img.getImage());
         setContentPane(getPanelMain());
@@ -152,14 +130,9 @@ public class ShowBooks extends JFrame{
         setSize(400, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        dispose();
-        setVisible(true);
+        setVisible(false);
 
-    }
-}
 
-class testshowbooks{
-    public static void main(String[] args) {
-        ShowBooks showBooks = new ShowBooks();
+
     }
 }
