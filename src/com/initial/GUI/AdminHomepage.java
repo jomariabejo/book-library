@@ -7,6 +7,39 @@ public class AdminHomepage extends JFrame{
     private JButton viewBooksButton;
     private JButton viewUsersButton;
     private JButton viewIssuedBooksButton;
+
+    public JButton getViewBooksButton() {
+        return viewBooksButton;
+    }
+
+    public JButton getViewUsersButton() {
+        return viewUsersButton;
+    }
+
+    public JButton getViewIssuedBooksButton() {
+        return viewIssuedBooksButton;
+    }
+
+    public JButton getIssueBookButton() {
+        return issueBookButton;
+    }
+
+    public JButton getAddUserButton() {
+        return addUserButton;
+    }
+
+    public JButton getAddBookButton() {
+        return addBookButton;
+    }
+
+    public JButton getReturnBookButton() {
+        return returnBookButton;
+    }
+
+    public JButton getCreateResetButton() {
+        return createResetButton;
+    }
+
     private JButton issueBookButton;
     private JButton addUserButton;
     private JButton addBookButton;
