@@ -1,15 +1,11 @@
 package com.initial;
 
-import com.initial.GUI_LoginandRegister.*;
+import com.initial.GUI.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -25,6 +21,7 @@ public class Main {
         UserHomepage userHomepage = new UserHomepage();
 
         ShowBooks showBooks = new ShowBooks();
+        AdminHomepage adminHomepage = new AdminHomepage();
 
 /*
  *  LOGIN START
@@ -46,16 +43,25 @@ public class Main {
                 String username = login.txtField_username.getText();
                 String password = String.valueOf(login.txtField_password.getPassword());
                 try {
-                    Read.FindUser(username, password);
-                    if (Read.FindUser(username, password).equals("!FOUND")) {
+                    read.FindUser(username, password);
+                    if (read.FindUser(username, password).equals("!FOUND")) {
                         JOptionPane.showMessageDialog(login.getPanelMain(), "Login Failed");
                     }
-                    if (Read.FindUser(username, password).equals("FOUND")) {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "Login Success");
-                        read.setAccount(username);
-                        userHomepage.getLabel_username().setText(username);
-                        login.setVisible(false);
-                        userHomepage.setVisible(true);
+                    if (read.FindUser(username, password).equals("FOUND")) {
+                        if (read.isAdmin()){
+                            JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back admin!");
+                            read.setAccount(username);
+                            userHomepage.getLabel_username().setText(username);
+                            adminHomepage.setVisible(true);
+                            login.dispose();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back "+ login.getTxtField_username().getText());
+                            read.setAccount(username);
+                            userHomepage.getLabel_username().setText(username);
+                            userHomepage.setVisible(true);
+                            login.dispose();
+                        }
                     }
                 } catch (ClassNotFoundException | SQLException ex) {
                     throw new RuntimeException(ex);
@@ -195,7 +201,6 @@ public class Main {
         userHomepage.getShowBooksButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String [][] globalVariable = null;
                 System.out.println("Show Books Clicked");
                 showBooks.setVisible(true);
                 userHomepage.dispose();
@@ -303,6 +308,78 @@ public class Main {
         });
 /*
  *  Shoow Books End
+ */
+
+
+
+/*
+ *  Admin Homepage Start
+ */
+        {
+            adminHomepage.getViewBooksButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("View Book Clicked");
+                }
+            });
+            adminHomepage.getViewUsersButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("View Users Clicked");
+
+                }
+            });
+
+            adminHomepage.getViewIssuedBooksButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("View Issued Book Clicked");
+
+                }
+            });
+            adminHomepage.getIssueBookButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Issue Book Clicked");
+
+                }
+            });
+            adminHomepage.getAddUserButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Add User Clicked");
+
+                }
+            });
+            adminHomepage.getAddBookButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Add Book Clicked");
+                }
+            });
+            adminHomepage.getReturnBookButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Return Book Clicked");
+
+                }
+            });
+            adminHomepage.getCreateResetButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Create Book Clicked");
+                }
+            });
+            adminHomepage.getLogoutButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Logout admin Clicked");
+                }
+            });
+        }
+
+/*
+ *  Admin Homepage End
  */
     };
 }
