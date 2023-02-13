@@ -39,12 +39,16 @@ public class AdminHomepage extends JFrame{
     public JButton getCreateResetButton() {
         return createResetButton;
     }
+    public JButton getLogoutButton() {
+        return logoutButton;
+    }
 
     private JButton issueBookButton;
     private JButton addUserButton;
     private JButton addBookButton;
     private JButton returnBookButton;
     private JButton createResetButton;
+    private JButton logoutButton;
 
     public AdminHomepage() {
         pack();
@@ -55,11 +59,7 @@ public class AdminHomepage extends JFrame{
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setVisible(true);
-    }
-}
-class testAdminHomepage{
-    public static void main(String[] args) {
-        AdminHomepage adminHomepage = new AdminHomepage();
+        setVisible(false);
+
     }
 }
