@@ -63,32 +63,33 @@ public class READ {
             ResultSet rs = pr.executeQuery();
             boolean result = stmt.execute(query);
 
+            reset_isUser_isAdmin_isPassword();
             while (rs.next()) {
-            /*
-                Check if USERNAME AND PASSWORD EQUALS TO
-                Database USERS TABLE
+        /*
+            Check if USERNAME AND PASSWORD EQUALS TO
+            Database USERS TABLE
+                IF
+                    username == db.users.username
+                    &&
+                    password == db.users.password
+                        setUser  = true
+                        setAdmin = false
+                        ACCOUNT USER FOUND
+                ELSE IF
+                    db.users.admin = true
+                        setUser  = false
+                        setAdmin = true
+                        ACCOUNT ADMIN FOUND
+                ELSE
                     IF
-                        username == db.users.username
-                        &&
-                        password == db.users.password
-                            setUser  = true
-                            setAdmin = false
-                            ACCOUNT USER FOUND
-                    ELSE IF
-                        db.users.admin = true
+                        username == db.username
+                        and
+                        password != db.password
                             setUser  = false
-                            setAdmin = true
-                            ACCOUNT ADMIN FOUND
+                            setAdmin = false
                     ELSE
-                        IF
-                            username == db.username
-                            and
-                            password != db.password
-                                setUser  = false
-                                setAdmin = false
-                        ELSE
-                            ACCOUNT NOT FOUND
-            */
+                        ACCOUNT NOT FOUND
+        */
                 if (username.equals(rs.getString("USERNAME")) &&
                         password.equals(rs.getString("PASSWORD"))
                 ) {
@@ -102,12 +103,12 @@ public class READ {
                     System.out.println("THIS.USER.FOUND");
                 } else {
                     if (username.equals(rs.getString("USERNAME")) &&
-                            !password.equals(rs.getString("PASSWORD"))
-                    ){
+                            !password.equals(rs.getString("PASSWORD"))) {
+                        setPassword(false);
                         System.out.println("USERNAME PASSWORD INCORRECT");
-                    }
-                    else if(!username.equals(rs.getString("USERNAME")) &&
-                            !password.equals(rs.getString("PASSWORD"))){
+                    } else if (!username.equals(rs.getString("USERNAME")) &&
+                            !password.equals(rs.getString("PASSWORD"))) {
+                        setPassword(false);
                         System.out.println("USERNAME DOESN'T EXIST TO DB");
                     }
                 }
@@ -117,11 +118,25 @@ public class READ {
         }
     }
 
+    public void reset_isUser_isAdmin_isPassword(){
+        setPassword(false);
+        setAdmin(false);
+        setUser(false);
+    }
+
 }
 class testRead {
     public static void main(String[] args) throws SQLException {
         READ r = new READ();
         r.printBooks();
         r.check_admin_or_user("jomariabejo", "helloworld");
+        System.out.println("Is this admin = " + r.isAdmin());
+        System.out.println("Is this user  = " + r.isUser());
+        r.check_admin_or_user("admin", "admin");
+        System.out.println("Is this admin = " + r.isAdmin());
+        System.out.println("Is this user  = " + r.isUser());
+        r.check_admin_or_user("jomariabejo", "hellowforld");
+        System.out.println("Is this admin = " + r.isAdmin());
+        System.out.println("Is this user  = " + r.isUser());
     }
 }
