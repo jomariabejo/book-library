@@ -3,4 +3,5 @@ module com.main{
     requires com.database;
     requires java.sql;
     requires com.GUI;
+    requires java.desktop;
 }
