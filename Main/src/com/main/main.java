@@ -147,10 +147,65 @@ public class main {
 
 
 
+
         /*
             REGISTER GUI START
          */
 
+
+        register.getBtn_register().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Register Clicked");
+                String username, password, recovery_phrase;
+                username = register.getTxtField_username().getText();
+                password = String.valueOf(register.getPwdField_password_confirm().getPassword());
+                recovery_phrase = String.valueOf(register.getPwdField_recoveryphrase().getPassword());
+
+                System.out.println(username);
+                System.out.println(password);
+                System.out.println(recovery_phrase);
+                create.insert_user(register.getTxtField_username().getText(),
+                        String.valueOf(register.getPwdField_password_confirm().getPassword()),
+                        String.valueOf(register.getPwdField_recoveryphrase().getPassword()));
+                if (register.getTxtField_username().getText().equals("") ||
+                    register.getPwdField_password_confirm().getPassword().equals("") ||
+                    register.getPwdField_recoveryphrase().getPassword().equals("")) {
+                        JOptionPane.showMessageDialog(register.getPanelMain(),"Fill in the fields");
+                }
+                if (!register.getTxtField_username().getText().equals("")){
+                    if (create.isDuplicate() == true){
+                        JOptionPane.showMessageDialog(register.getPanelMain(),"Account already Exist");
+                    }
+                    if (create.isDuplicate() == false){
+                        JOptionPane.showMessageDialog(register.getPanelMain(),"Registered Successfully");
+                    }
+                }
+                create.reset();
+            }
+        });
+        register.getBtn_go_back().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go back clicked");
+            }
+        });
+        register.getBtn_register().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                System.out.println("Register pressed");
+
+            }
+        });
+        register.getBtn_go_back().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                System.out.println("Go back Clicked");
+
+            }
+        });
 
         /*
             REGISTER GUI END
