@@ -1,11 +1,19 @@
 package com.read;
+import com.Users.MyBooks;
+import com.Users.ViewBooks;
 import com.database.*;
+
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
+
 public class READ {
 
     private boolean isAdmin;
     private boolean isUser;
     private boolean isPassword;
+    private String getUsername;
+    private String getPassword;
 
     public boolean isAdmin() {
         return isAdmin;
@@ -29,6 +37,22 @@ public class READ {
 
     public void setPassword(boolean password) {
         isPassword = password;
+    }
+
+    public String getGetUsername() {
+        return getUsername;
+    }
+
+    public void setGetUsername(String getUsername) {
+        this.getUsername = getUsername;
+    }
+
+    public String getGetPassword() {
+        return getPassword;
+    }
+
+    public void setGetPassword(String getPassword) {
+        this.getPassword = getPassword;
     }
 
     public void printBooks() throws SQLException {
@@ -93,6 +117,8 @@ public class READ {
                 if (username.equals(rs.getString("USERNAME")) &&
                         password.equals(rs.getString("PASSWORD"))
                 ) {
+                    setGetUsername(rs.getString("USERNAME"));
+                    setGetPassword(rs.getString("PASSWORD"));
                     setUser(true);
                     setPassword(true);
                     if (rs.getString("USERNAME").equals("admin")) {
@@ -124,19 +150,72 @@ public class READ {
         setUser(false);
     }
 
+    public DefaultTableModel booksDTM = new DefaultTableModel();
+
+    public DefaultTableModel getBooksDTM() {
+        return booksDTM;
+    }
+
+    public void setBooksDTM(DefaultTableModel booksDTM) {
+        this.booksDTM = booksDTM;
+    }
+
+    public void showBooks(){
+        try {
+            System.out.println("calling db ->>" + Database.getConnection());
+            Connection conn = Database.getConnection();
+            System.out.println(conn);
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM books";
+            PreparedStatement ps = conn.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            System.out.println(rs.last());
+            int numRow = rs.getRow();
+            rs.beforeFirst();
+            int row = 0;
+            String [] headerBooks = {"ID","NAME","GENRE","PRICE"};
+            String [][] dataBooks = new String[numRow][4];
+            while (rs.next()) {
+                dataBooks[row][0] = (rs.getString("BID"));
+                dataBooks[row][1] = (rs.getString("BNAME"));
+                dataBooks[row][2] = (rs.getString("GENRE"));
+                dataBooks[row][3] = (rs.getString("PRICE"));
+                row++;
+            }
+            DefaultTableModel dtm = new DefaultTableModel(dataBooks,headerBooks);
+            setBooksDTM(dtm);
+
+
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 class testRead {
     public static void main(String[] args) throws SQLException {
         READ r = new READ();
-        r.printBooks();
-        r.check_admin_or_user("jomariabejo", "helloworld");
-        System.out.println("Is this admin = " + r.isAdmin());
-        System.out.println("Is this user  = " + r.isUser());
-        r.check_admin_or_user("admin", "admin");
-        System.out.println("Is this admin = " + r.isAdmin());
-        System.out.println("Is this user  = " + r.isUser());
-        r.check_admin_or_user("jomariabejo", "hellowforld");
-        System.out.println("Is this admin = " + r.isAdmin());
-        System.out.println("Is this user  = " + r.isUser());
+        MyBooks books = new MyBooks();
+        r.showBooks();
+        books.getMyBooksTable().setModel(r.getBooksDTM());
+        books.setVisible(true);
+
+//        System.out.println(r.dataBooks[0][0]);
+//        for (String[] st:
+//             r.dataBooks) {
+//            System.out.println(st);
+//        }
+//        DefaultTableModel dtm = new DefaultTableModel(r.dataBooks,r.headerBooks);
+//        books.getMyBooksTable().setModel(dtm);
+//        books.setVisible(true);
+
+
+
+
     }
 }
