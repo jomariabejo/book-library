@@ -46,6 +46,9 @@ public class main {
 
         //  USERS GUI
         USERS_HOMEPAGE users_homepage = new USERS_HOMEPAGE();
+        MyProfile users_profile = new MyProfile();
+        MyBooks users_books = new MyBooks();
+        ViewBooks users_viewBooks = new ViewBooks();
 
 
         //  ADMIN GUI
@@ -72,15 +75,19 @@ public class main {
                 read.check_admin_or_user(username, password);
 
                 if (read.isAdmin()) {
-                    JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back admin");
+                    JOptionPane.showMessageDialog(login.getPanelMain(),
+                            "Welcome back admin");
                     admin_homepage.setVisible(true);
                     login.dispose();
                 } else if (read.isUser()) {
-                    JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back " + username);
+                    JOptionPane.showMessageDialog(login.getPanelMain(),
+                            "Welcome back " + username);
+                    users_homepage.getLbl_getUsername().setText(username);
                     users_homepage.setVisible(true);
                     login.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(login.getPanelMain(), "The username you entered isn’t connected to an account.");
+                    JOptionPane.showMessageDialog(login.getPanelMain(),
+                            "The username you entered isn’t connected to an account.");
                     login.getTxtField_username().setText("");
                     login.getPwdField_password().setText("");
                 }
@@ -108,20 +115,25 @@ public class main {
 
                     if (login.getTxtField_username().equals("") ||
                             login.getPwdField_password().getPassword().equals("")) {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "Ensure that every field has a value.");
+                        JOptionPane.showMessageDialog(login.getPanelMain(),
+                                "Ensure that every field has a value.");
                     }
                     if (read.isAdmin()) {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back admin");
+                        JOptionPane.showMessageDialog(login.getPanelMain(),
+                                "Welcome back admin");
                         admin_homepage.setVisible(true);
                         login.dispose();
                     }
                     else if (read.isUser()) {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "Welcome back " + username);
+                        JOptionPane.showMessageDialog(login.getPanelMain(),
+                                "Welcome back " + username);
+                        users_homepage.getLbl_getUsername().setText(username);
                         users_homepage.setVisible(true);
                         login.dispose();
                     }
                     else {
-                        JOptionPane.showMessageDialog(login.getPanelMain(), "The username you entered isn’t connected to an account.");
+                        JOptionPane.showMessageDialog(login.getPanelMain(),
+                                "The username you entered isn’t connected to an account.");
                         login.getTxtField_username().setText("");
                         login.getPwdField_password().setText("");
                     }
@@ -168,15 +180,19 @@ public class main {
                         String.valueOf(register.getPwdField_password_confirm().getPassword()),
                         String.valueOf(register.getPwdField_recoveryphrase().getPassword()));
 
-                if (register.getTxtField_username().getText().equals("") ||
-                        String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("") ||
+                if (register.getTxtField_username().getText().equals("")
+                        ||
+                        String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("")
+                        ||
                         String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("")
                 ) {
                     JOptionPane.showMessageDialog(register.getPanelMain(), "Fill in the fields");
                 }
 
-                if (!register.getTxtField_username().getText().equals("") &&
-                        !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("") &&
+                if (!register.getTxtField_username().getText().equals("")
+                        &&
+                        !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("")
+                        &&
                         !String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("")) {
 
                     if (String.valueOf(register.getPwdField_password_confirm().getPassword()).
@@ -233,8 +249,10 @@ public class main {
                         JOptionPane.showMessageDialog(register.getPanelMain(), "Fill in the fields");
                     }
 
-                    if (!register.getTxtField_username().getText().equals("") &&
-                            !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("") &&
+                    if (!register.getTxtField_username().getText().equals("")
+                            &&
+                            !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("")
+                            &&
                             !String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("")) {
 
                         if (String.valueOf(register.getPwdField_password_confirm().getPassword()).
@@ -268,7 +286,6 @@ public class main {
                     login.setVisible(true);
                     register.dispose();
                 }
-
             }
         });
 
@@ -279,5 +296,154 @@ public class main {
 
 
 
+
+        /*
+            USER HOMEPAGE START
+         */
+
+            users_homepage.myProfileButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("My Profile Clicked");
+                    users_profile.getTxtField_username().setText(read.getGetUsername());
+                    users_profile.getPasswordField_password().setText(read.getGetPassword());
+                    users_profile.setVisible(true);
+                    users_homepage.dispose();
+                }
+            });
+            users_homepage.getViewBooksButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("View Books Clicked");
+                    read.showBooks();
+                    users_viewBooks.getBooksTable().setModel(read.getBooksDTM());
+                    users_viewBooks.setVisible(true);
+                    users_homepage.dispose();
+                }
+            });
+            users_homepage.getMyBooksButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("My Books Clicked");
+                    read.showBooks();
+                    users_books.getMyBooksTable().setModel(read.getBooksDTM());
+                    users_books.setVisible(true);
+                    users_homepage.dispose();
+                }
+            });
+
+        /*
+            USER HOMEPAGE END
+         */
+
+
+
+        /*
+            My Profile Start
+         */
+
+        users_profile.getEditButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Edit Button Clicked");
+            }
+        });
+        users_profile.getSaveButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Save Button Clicked");
+            }
+        });
+        users_profile.getGoBackButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go Back Clicked");
+                users_homepage.setVisible(true);
+                users_profile.dispose();
+            }
+        });
+
+        /*
+            My Profile End
+         */
+
+
+        /*
+            Users ViewBooks Start
+         */
+
+        users_viewBooks.goBackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go Back");
+            }
+        });
+
+        users_viewBooks.goBackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go Back Clicked.");
+                users_homepage.setVisible(true);
+                users_viewBooks.dispose();
+            }
+        });
+
+        /*
+            Users ViewBooks End
+         */
+
+        /*
+            Users Books Start
+         */
+
+        users_books.getGoBackButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Go Back Clicked");
+                users_homepage.setVisible(true);
+                users_books.dispose();
+            }
+        });
+        /*
+           Users Books End
+         */
+
+
+
+
+
+
+
+
+
+
+        /*
+           MyProfile Start
+         */
+
+        users_profile.getEditButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                users_profile.getTxtField_username().setEditable(true);
+                users_profile.getPasswordField_password().setEditable(true);
+            }
+        });
+        users_profile.getSaveButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        users_profile.getGoBackButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                users_homepage.setVisible(true);
+                users_profile.dispose();
+            }
+        });
+
+        /*
+           MyProfile End
+         */
     }
 }
