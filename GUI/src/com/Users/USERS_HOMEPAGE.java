@@ -3,13 +3,14 @@ package com.Users;
 import javax.swing.*;
 import java.awt.*;
 
-public class UsersHomepage extends JFrame {
+public class USERS_HOMEPAGE extends JFrame {
     private JPanel panelMain;
     private JButton viewBooksButton;
     private JButton myBooksButton;
-    private JButton btn_myProfile;
+    public JButton myProfileButton;
     private JLabel lbl_username;
     private JLabel lbl_getUsername;
+    private JButton LOGOUTButton;
 
     public JButton getViewBooksButton() {
         return viewBooksButton;
@@ -28,11 +29,11 @@ public class UsersHomepage extends JFrame {
     }
 
     public JButton getBtn_myProfile() {
-        return btn_myProfile;
+        return myProfileButton;
     }
 
     public void setBtn_myProfile(JButton btn_myProfile) {
-        this.btn_myProfile = btn_myProfile;
+        this.myProfileButton = btn_myProfile;
     }
 
     public JLabel getLbl_username() {
@@ -59,19 +60,29 @@ public class UsersHomepage extends JFrame {
         this.panelMain = panelMain;
     }
 
-    public UsersHomepage() throws HeadlessException {
+    public JButton getLOGOUTButton() {
+        return LOGOUTButton;
+    }
+
+    public void setLOGOUTButton(JButton LOGOUTButton) {
+        this.LOGOUTButton = LOGOUTButton;
+    }
+
+    public USERS_HOMEPAGE() throws HeadlessException {
         setContentPane(panelMain);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
+
+
     }
 }
 
 class testUserHomepage{
     public static void main(String[] args) {
-        UsersHomepage usersHomepage = new UsersHomepage();
+        USERS_HOMEPAGE usersHomepage = new USERS_HOMEPAGE();
         usersHomepage.setVisible(true);
     }
 }

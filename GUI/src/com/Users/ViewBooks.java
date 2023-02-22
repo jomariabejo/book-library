@@ -25,7 +25,15 @@ public class ViewBooks extends JFrame{
     private JPanel panelMain;
     public JButton goBackButton;
     private JTable booksTable;
+    private JScrollPane jscroll;
 
+    public JScrollPane getJscroll() {
+        return jscroll;
+    }
+
+    public void setJscroll(JScrollPane jscroll) {
+        this.jscroll = jscroll;
+    }
 
     public ViewBooks() {
         setContentPane(getPanelMain());
@@ -34,6 +42,7 @@ public class ViewBooks extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
+        getBooksTable().setRowHeight(24);
 
         String[] headers = {
                 "ID",
@@ -49,10 +58,53 @@ public class ViewBooks extends JFrame{
                 {"0","1","2","3"},
                 {"0","1","2","3"},
                 {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
+                {"0","1","2","3"},
         };
 
-        DefaultTableModel dtm = new DefaultTableModel(data, headers);
+        DefaultTableModel dtm = new DefaultTableModel(data,headers);
         getBooksTable().setModel(dtm);
+        getJscroll().getViewport().add(getBooksTable());
     }
 }
 

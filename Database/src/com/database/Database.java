@@ -10,7 +10,18 @@ public class Database {
         Connection con = null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books","root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return con;
+    }
+    public static Connection getConnectionLibrary(){
+        Connection con = null;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","");
         }
         catch (Exception e){
             e.printStackTrace();

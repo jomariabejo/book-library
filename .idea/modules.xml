@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CRUD/CRUD.iml" filepath="$PROJECT_DIR$/CRUD/CRUD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Database/Database.iml" filepath="$PROJECT_DIR$/Database/Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GUI/GUI.iml" filepath="$PROJECT_DIR$/GUI/GUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Main/Main.iml" filepath="$PROJECT_DIR$/Main/Main.iml" />
       <module fileurl="file://$PROJECT_DIR$/jdbc.iml" filepath="$PROJECT_DIR$/jdbc.iml" />
     </modules>
   </component>

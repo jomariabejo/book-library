@@ -1,9 +1,6 @@
 package com.initial;
-import com.initial.GUI_LoginandRegister.Profile;
 
-import javax.swing.*;
 import java.sql.*;
-import java.util.Set;
 
 public class Read {
     static Connection conn = null;
@@ -77,10 +74,19 @@ public class Read {
     public int id;
     public String username, firstname, lastname, email, date, password;
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    private boolean admin = false;
+
     public void FindBookByTitle(String title_input) {
         {
-            Connection conn = null;
-            Statement stmt = null;
+
             try {
                 Class.forName(JDBC_DRIVER);
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -151,16 +157,7 @@ public class Read {
                     int released_year = rs.getInt("released_year");
                     int stock_quantity = rs.getInt("stock_quantity");
                     int pages = rs.getInt("pages");
-                    System.out.println(
-                            "MYSQL RESPONSE ->                            \n" +
-                                    "ID            : " + id + ",           \n" +
-                                    "TITLE         : " + title + ",         \n" +
-                                    "First Name    : " + author_fname + ",   \n" +
-                                    "Last Name     : " + author_lname + ",    \n" +
-                                    "Released Year : " + released_year + ",    \n" +
-                                    "Stock Quantity: " + stock_quantity + ",    \n" +
-                                    "pages         : " + pages
-                    );
+
                 }
                 if (result) {
                     System.out.println("Query executed successfully");
@@ -237,12 +234,13 @@ public class Read {
             System.out.println("FindBookByAuthorFullName called...");
         }
     }
-    public static String FindUser(String username, String password) throws ClassNotFoundException, SQLException {
+    public String FindUser(String username, String password) throws ClassNotFoundException, SQLException {
         {
-            String resultConcat=null;
+            String resultConcat="";
             try {
-                Class.forName(JDBC_DRIVER);
-                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//                Class.forName(JDBC_DRIVER);
+//                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                conn = DBConnection.getConnection();
                 stmt = conn.createStatement();
                 String query = "SELECT username FROM users WHERE username = '" + username+"' AND password = '" + password+"'";
 //                SELECT * FROM books1_0 WHERE username = 'jomariabejo' AND authorlname = 'helloworld';
@@ -252,6 +250,14 @@ public class Read {
                 boolean result = stmt.execute(query);
                 while (rs.next()) {
                     resultConcat = rs.getString("username");
+                }
+                if (resultConcat.equals("user")){
+                    System.out.println("it is the admin");
+                    this.setAdmin(true);
+                }
+                else {
+                    System.out.println("Not admin");
+                    this.setAdmin(false);
                 }
                 if (result) {
                     System.out.println("Query executed successfully");
@@ -337,18 +343,43 @@ public class Read {
             System.out.println("SetAccount called...");
         }
     }
-    public void getAccount(){
+    public void getAccount() {
         System.out.println("ID          = " + getId());
         System.out.println("Username    = " + getUsername());
         System.out.println("First Name  = " + getFirstname());
         System.out.println("Last Name   = " + getLastname());
-        System.out.println("Email       = " + getEmail() );
+        System.out.println("Email       = " + getEmail());
         System.out.println("Date Joined = " + getDate());
-        System.out.println("Get account called");
     }
 
+
+    public String [][] globalVariable = null;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Read read = new Read();
-        System.out.println(FindUser("jomariabejo","helloworld"));
+//        read.FindBookByTitle("Boruto");
+//        FindUser("jomariabejo","helloworld");
+        read.FindUser("user","admin");
+        read.FindUser("","");
+
+    }
+
+    public static class DBConnection {
+        public static Connection getConnection(){
+            Connection con = null;
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books","root","");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            return con;
+        }
+    }
+}
+class tesst{
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Read rd = new Read();
+        rd.FindUser("jomariabejo","helloworld");
     }
 }

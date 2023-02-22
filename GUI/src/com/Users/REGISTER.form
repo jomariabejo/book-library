@@ -121,6 +121,7 @@
         </constraints>
         <properties>
           <font size="24"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="853a0" class="javax.swing.JPasswordField" binding="pwdField_password">

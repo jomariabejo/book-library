@@ -166,6 +166,7 @@ public class REGISTER extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
+
     }
 }
 

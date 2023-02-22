@@ -1,11 +1,6 @@
-package com.initial.GUI_LoginandRegister;
-
-import com.initial.Create;
-import com.initial.Read;
+package com.initial.GUI;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class UserHomepage extends JFrame {
     public JPanel getPanelMain() {
@@ -85,11 +80,5 @@ public class UserHomepage extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-
-
-
-
-
-
     }
 }

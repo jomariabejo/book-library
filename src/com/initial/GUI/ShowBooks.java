@@ -1,9 +1,7 @@
-package com.initial.GUI_LoginandRegister;
+package com.initial.GUI;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class ShowBooks extends JFrame {
@@ -44,14 +42,14 @@ public class ShowBooks extends JFrame {
     private JButton borrowButton;
 
     public JTable getBookslist() {
-        return bookslist;
+        return bookslistt;
     }
 
     public void setBookslist(JTable bookslist) {
-        this.bookslist = bookslist;
+        this.bookslistt = bookslist;
     }
 
-    public JTable bookslist;
+    public JTable bookslistt;
 
     public JScrollPane getScrollPane() {
         return ScrollPane;
@@ -131,8 +129,11 @@ public class ShowBooks extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
+    }
+}
 
-
+class testShowBooks{
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
     }
 }

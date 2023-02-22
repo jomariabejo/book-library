@@ -162,6 +162,7 @@ public class Create {
             String fnal_end = " VALUES (" + "'" + getUserUsername() + "'" + ",'" + getUserFirstName() + "'" + ',' + "'" + getUserLastName() + "'" + ",'" + getUserEmail() + "'" + ",'" + getUserPassword() + "'" + ")";
             String sql = fnal_start + fnal_end;
 
+            System.out.println(sql);
             int rowsAffected = stmt.executeUpdate(sql);
             System.out.println(rowsAffected + " row(s) affected.");
             this.duplicate = "";

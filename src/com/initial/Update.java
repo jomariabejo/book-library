@@ -14,6 +14,16 @@ public class Update {
     static final String USER = "root";
     static final String PASS = "";
 
+    public String getDuplicate() {
+        return duplicate;
+    }
+
+    public void setDuplicate(String duplicate) {
+        this.duplicate = duplicate;
+    }
+
+    public String duplicate = "";
+
 
     public void UpdateBook(String updateID, String title, String author_fname , String author_lname,String released_year, String stock_quantity, String pages){
         try {
@@ -65,19 +75,32 @@ public class Update {
             conn.close();
         } catch (Exception se) {
             se.printStackTrace();
+            System.out.println("SEQLLL");
+            setDuplicate(se.getMessage());
+
         }
         finally {
             try {
                 if (stmt != null) stmt.close();
             }
-            catch (SQLException ignored) {}
+            catch (SQLException e) {
+                setDuplicate(e.getMessage());
+            }
             try {
                 if (conn != null) conn.close();
             }
             catch (SQLException se) {
                 se.printStackTrace();
+                System.out.println(se.getMessage());
             }
         }
         System.out.println("DATA has been UPDATED, Goodbye!");
+        System.out.println(getDuplicate());
+    }
+}
+class test {
+    public static void main(String[] args) {
+        Update update = new Update();
+        update.UpdateUser(1,"jomariabej","jomari","abejo","jomariabejo@gmail.com","helloworld");
     }
 }

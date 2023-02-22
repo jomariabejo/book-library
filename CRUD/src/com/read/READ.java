@@ -1,11 +1,10 @@
 package com.read;
+
 import com.Users.MyBooks;
-import com.Users.ViewBooks;
-import com.database.*;
+import com.database.Database;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class READ {
 
@@ -14,6 +13,7 @@ public class READ {
     private boolean isPassword;
     private String getUsername;
     private String getPassword;
+    private int ID;
 
     public boolean isAdmin() {
         return isAdmin;
@@ -55,6 +55,14 @@ public class READ {
         this.getPassword = getPassword;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public void printBooks() throws SQLException {
         try {
             System.out.println("calling db ->>" + Database.getConnection());
@@ -82,7 +90,8 @@ public class READ {
             System.out.println("calling the check_admin_or_user");
             Connection conn = Database.getConnection();
             Statement stmt = conn.createStatement();
-            String query = "SELECT username, password, admin FROM users";
+//            String query = "SELECT username, password, admin FROM users";
+            String query = "SELECT * FROM users WHERE USERNAME = '"+username+"' AND PASSWORD ='"+ password+"'";
             PreparedStatement pr = conn.prepareStatement(query);
             ResultSet rs = pr.executeQuery();
             boolean result = stmt.execute(query);
@@ -121,6 +130,7 @@ public class READ {
                     setGetPassword(rs.getString("PASSWORD"));
                     setUser(true);
                     setPassword(true);
+                    setID(rs.getInt("UID"));
                     if (rs.getString("USERNAME").equals("admin")) {
                         setUser(false);
                         setAdmin(true);
@@ -165,10 +175,10 @@ public class READ {
             System.out.println("calling db ->>" + Database.getConnection());
             Connection conn = Database.getConnection();
             System.out.println(conn);
-            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            Statement stmt = conn.createStatement();
             String query = "SELECT * FROM books";
             PreparedStatement ps = conn.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             System.out.println(rs.last());
             int numRow = rs.getRow();
@@ -183,8 +193,7 @@ public class READ {
                 dataBooks[row][3] = (rs.getString("PRICE"));
                 row++;
             }
-            DefaultTableModel dtm = new DefaultTableModel(dataBooks,headerBooks);
-            setBooksDTM(dtm);
+            setBooksDTM(new DefaultTableModel(dataBooks,headerBooks));
 
 
 
@@ -195,16 +204,17 @@ public class READ {
             e.printStackTrace();
         }
     }
-
 }
 class testRead {
     public static void main(String[] args) throws SQLException {
         READ r = new READ();
         MyBooks books = new MyBooks();
-        r.showBooks();
-        books.getMyBooksTable().setModel(r.getBooksDTM());
-        books.setVisible(true);
-
+        r.check_admin_or_user("jomariabejo","helloworld");
+        System.out.println(r.getID());
+//        r.showBooks();
+//        books.getMyBooksTable().setModel(r.getBooksDTM());
+//        books.setVisible(true);
+//
 //        System.out.println(r.dataBooks[0][0]);
 //        for (String[] st:
 //             r.dataBooks) {
@@ -213,9 +223,5 @@ class testRead {
 //        DefaultTableModel dtm = new DefaultTableModel(r.dataBooks,r.headerBooks);
 //        books.getMyBooksTable().setModel(dtm);
 //        books.setVisible(true);
-
-
-
-
     }
 }

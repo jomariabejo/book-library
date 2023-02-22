@@ -2,8 +2,16 @@ package com.Admin;
 
 import javax.swing.*;
 
-public class adminHomepage extends JFrame{
+public class ADMIN_HOMEPAGE extends JFrame{
     private JPanel panelMain;
+    private JButton viewBooksButton;
+    private JButton addUserButton;
+    private JButton viewUsersButton;
+    private JButton addBookButton;
+    private JButton viewIssuedBooksButton;
+    private JButton returnBookButton;
+    private JButton issueBookButton;
+    private JButton createResetButton;
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -12,7 +20,7 @@ public class adminHomepage extends JFrame{
     public void setPanelMain(JPanel panelMain) {
         this.panelMain = panelMain;
     }
-        public adminHomepage(){
+        public ADMIN_HOMEPAGE(){
         setContentPane(getPanelMain());
         setTitle("Jomari Abejo");
         setSize(800, 600);
@@ -24,7 +32,7 @@ public class adminHomepage extends JFrame{
 
 class testttt{
     public static void main(String[] args) {
-        adminHomepage ad = new adminHomepage();
+        ADMIN_HOMEPAGE ad = new ADMIN_HOMEPAGE();
         ad.setVisible(true);
     }
 }

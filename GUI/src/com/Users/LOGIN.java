@@ -80,7 +80,7 @@ public class LOGIN extends JFrame{
     public String check_Fields(){
         if (getTxtField_username().getText().equals("") ||
                 getPwdField_password().getText().equals("")){
-                    return "Please enter information in the fields.";
+            return "Please enter information in the fields.";
         }
         if (getTxtField_username().getText().equals("")){
             return "Put something in the username field.";

@@ -1,11 +1,6 @@
-package com.initial.GUI_LoginandRegister;
-
-import com.initial.Create;
-import com.initial.Read;
+package com.initial.GUI;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Register extends JFrame {
     public JTextField fName_txtField;

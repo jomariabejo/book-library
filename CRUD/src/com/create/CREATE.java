@@ -43,6 +43,13 @@ public class CREATE {
         isDuplicate = duplicate;
     }
 
+    public void reset_duplicate_password_phrase(){
+        setDuplicate(false);
+        setPassword("");
+        setUsername("");
+        setSecret_recovery_phrase("");
+    }
+
     public void insert_user(String username, String password, String secret_recovery_phrase){
         try {
             System.out.println("calling db ->>" + Database.getConnection());
