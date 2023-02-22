@@ -2,10 +2,6 @@ package com.Users;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class LOGIN extends JFrame{
     private JPanel panelMain;
@@ -73,17 +69,31 @@ public class LOGIN extends JFrame{
     }
 
     public LOGIN() throws HeadlessException {
-        setContentPane(panelMain);
+        setContentPane(getPanelMain());
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
     }
+
+    public String check_Fields(){
+        if (getTxtField_username().getText().equals("") ||
+                getPwdField_password().getText().equals("")){
+                    return "Please enter information in the fields.";
+        }
+        if (getTxtField_username().getText().equals("")){
+            return "Put something in the username field.";
+        }
+        if (getPwdField_password().getText().equals("")){
+            return "Put something in the password field.";
+        }
+        return "";
+    }
 }
 class testlogin{
     public static void main(String[] args) {
-        LOGIN login = new LOGIN();
-        login.setVisible(true);
+        LOGIN lg = new LOGIN();
+        lg.setVisible(true);
     }
 }
