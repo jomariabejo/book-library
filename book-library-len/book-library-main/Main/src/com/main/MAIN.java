@@ -11,6 +11,8 @@ import com.crud.UPDATE;
 
 
 import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,27 +21,11 @@ import java.sql.SQLException;
 
 public class MAIN {
     public static void main(String[] args) throws SQLException {
-
-        /*
-            SQL METHODS
-                CREATE
-                READ
-                UPDATE
-                DELETE
-        */
+        //  SQL METHODS
         CREATE create = new CREATE();
-        READ   read   = new READ();
+        READ read = new READ();
         UPDATE update = new UPDATE();
         DELETE delete = new DELETE();
-
-        /*
-            GRAPHICAL USER INTERFACE
-        */
-        Admin admin = new Admin();
-        Users users = new Users();
-
-        admin.greeting("Jomari Abejo");
-
 
         //  LOGIIN GUI
         LOGIIN login = new LOGIIN();
@@ -58,28 +44,25 @@ public class MAIN {
         ADMIN_HOMEPAGE admin_homepage = new ADMIN_HOMEPAGE();
 
 
-        /*
-         * The program will start to login page.
-         */
-
-        /*
-            LOGIIN GUI START
-         */
-
+        //  The program will start to login GUI.
         login.setVisible(true);
         login.getBtn_login().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Login Clicked");
 
-                String username = login.getTxtField_username().getText();
-                String password = String.valueOf(login.getPwdField_password().getPassword());
+                String username =
+                        login.
+                        getTxtField_username().
+                        getText();
+                String password =
+                        String.valueOf(login.getPwdField_password().getPassword());
 
                 read.check_admin_or_user(username, password);
 
                 if (read.isAdmin()) {
-                    JOptionPane.showMessageDialog(login.getPanelMain(),
-                            "Welcome back admin");
+                    JOptionPane.showMessageDialog
+                                    (login.getPanelMain(), "Welcome back admin");
                     admin_homepage.setVisible(true);
                     login.dispose();
                 } else if (read.isUser()) {
@@ -171,15 +154,16 @@ public class MAIN {
             public void actionPerformed(ActionEvent e) {
 
                 System.out.println("Register Clicked");
-                String username, password, recovery_phrase;
 
-                username = register.getTxtField_username().getText();
-                password = String.valueOf(register.getPwdField_password_confirm().getPassword());
-                recovery_phrase = String.valueOf(register.getPwdField_recoveryphrase().getPassword());
-
-                create.insert_user(register.getTxtField_username().getText(),
+//                String username, String password, String secret_recovery_phrase, String fname, String lname, String email
+                create.insert_user(
+                        register.getTxtField_username().getText(),
                         String.valueOf(register.getPwdField_password_confirm().getPassword()),
-                        String.valueOf(register.getPwdField_recoveryphrase().getPassword()));
+                        String.valueOf(register.getPwdField_recoveryphrase().getPassword()),
+                        register.getTxtField_firstname().getText(),
+                        register.getTxtField_lastname().getText(),
+                        register.getTxtField_email().getText()
+                );
 
                 if (register.getTxtField_username().getText().equals("") ||
                         String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("") ||
@@ -192,15 +176,17 @@ public class MAIN {
                         !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("") &&
                         !String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("")) {
 
-                    if (String.valueOf(register.getPwdField_password_confirm().getPassword()).
-                            equals(String.valueOf(register.getPwdField_password().getPassword()))) {
+                    if (String.valueOf(register.getPwdField_password_confirm().getPassword()).equals(String.valueOf(register.getPwdField_password().getPassword()))) {
 
-                        if (create.isDuplicate() == true) {
+                        if (create.isDuplicate()) {
                             JOptionPane.showMessageDialog(register.getPanelMain(),
                                     "Account already Exist");
                         } else {
                             JOptionPane.showMessageDialog(register.getPanelMain(),
                                     "Registered Successfully");
+                            register.RESETVALUES();
+                            login.setVisible(true);
+                            register.dispose();
                         }
                     } else {
                         JOptionPane.showMessageDialog(register.getPanelMain(),
@@ -227,15 +213,15 @@ public class MAIN {
 
                 if (e.getKeyCode() == 0) {
                     System.out.println("Register pressed");
-                    String username, password, recovery_phrase;
 
-                    username = register.getTxtField_username().getText();
-                    password = String.valueOf(register.getPwdField_password_confirm().getPassword());
-                    recovery_phrase = String.valueOf(register.getPwdField_recoveryphrase().getPassword());
-
-                    create.insert_user(register.getTxtField_username().getText(),
+                    create.insert_user(
+                            register.getTxtField_username().getText(),
                             String.valueOf(register.getPwdField_password_confirm().getPassword()),
-                            String.valueOf(register.getPwdField_recoveryphrase().getPassword()));
+                            String.valueOf(register.getPwdField_recoveryphrase().getPassword()),
+                            register.getTxtField_firstname().getText(),
+                            register.getTxtField_lastname().getText(),
+                            register.getTxtField_email().getText()
+                    );
 
                     if (register.getTxtField_username().getText().equals("") ||
                             String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("") ||
@@ -248,7 +234,8 @@ public class MAIN {
                             !String.valueOf(register.getPwdField_password_confirm().getPassword()).equals("") &&
                             !String.valueOf(register.getPwdField_recoveryphrase().getPassword()).equals("")) {
 
-                        if (String.valueOf(register.getPwdField_password_confirm().getPassword()).
+                        if (String.valueOf
+                                (register.getPwdField_password_confirm().getPassword()).
                                 equals(String.valueOf(register.getPwdField_password().getPassword()))) {
 
                             if (create.isDuplicate() == true) {
@@ -298,6 +285,9 @@ public class MAIN {
                 System.out.println("My Profile Clicked");
                 users_profile.getTxtField_username().setText(read.getGetUsername());
                 users_profile.getPasswordField_password().setText(read.getGetPassword());
+                users_profile.getTxtField_fname().setText(read.getGetFirstName());
+                users_profile.getTxtField_lname().setText(read.getGetLastName());
+                users_profile.getTxtField_email().setText(read.getGetEmail());
                 users_profile.setVisible(true);
                 users_homepage.dispose();
             }
@@ -309,6 +299,14 @@ public class MAIN {
                 read.showBooks();
                 users_viewBooks.getBooksTable().setModel(read.getBooksDTM());
                 users_viewBooks.getJscroll().getViewport().add(users_viewBooks.getBooksTable());
+                TableColumnModel columnModel = users_viewBooks.getBooksTable().getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(25);
+                columnModel.getColumn(1).setPreferredWidth(420);
+                columnModel.getColumn(2).setPreferredWidth(100);
+                columnModel.getColumn(3).setPreferredWidth(55);
+                users_viewBooks.getBooksTable().getTableHeader().setFont(new Font("Dialog", Font.BOLD, 18));
+                users_viewBooks.getBooksTable().setRowHeight(0, 60);
+                users_viewBooks.getBooksTable().setRowHeight(40);
                 users_viewBooks.setVisible(true);
                 users_homepage.dispose();
             }
@@ -324,6 +322,12 @@ public class MAIN {
                     throw new RuntimeException(ex);
                 }
                 users_books.getMyBooksTable().setModel(read.getUsersBooksDTM());
+                users_books.getjScrollpane().getViewport().add(users_books.getMyBooksTable());
+
+                TableColumnModel columnModel = users_books.getMyBooksTable().getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(200);
+                columnModel.getColumn(1).setPreferredWidth(200);
+                columnModel.getColumn(2).setPreferredWidth(200);
                 users_books.setVisible(true);
                 users_homepage.dispose();
             }
@@ -333,6 +337,8 @@ public class MAIN {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("LOGOUT CLICKED");
+                login.getTxtField_username().setText("");
+                login.getPwdField_password().setText("");
                 login.setVisible(true);
                 users_homepage.dispose();
             }
@@ -362,19 +368,32 @@ public class MAIN {
                     update.UPDATE_USERPROFILE(
                             read.getGetUsername(),
                             users_profile.getTxtField_username().getText(),
-                            (String.valueOf(users_profile.getPasswordField_password().getPassword()))
+                            String.valueOf(users_profile.getPasswordField_password().getPassword()),
+                            users_profile.getTxtField_fname().getText(),
+                            users_profile.getTxtField_lname().getText(),
+                            users_profile.getTxtField_email().getText()
                     );
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
                 if (update.getUPDATE_PROCESS().equals("success")) {
-                    JOptionPane.showMessageDialog(users_profile.getPanelMain(),"UPDATE SUCCESS");
+                    JOptionPane.showMessageDialog(users_profile.getPanelMain(), "UPDATE SUCCESS");
+                    users_profile.getTxtField_username().setEditable(false);
+                    users_profile.getTxtField_fname().setEditable(false);
+                    users_profile.getTxtField_lname().setEditable(false);
+                    users_profile.getTxtField_email().setEditable(false);
+                    users_profile.getPasswordField_password().setEditable(false);
                     users_homepage.getLbl_getUsername().setText(users_profile.getTxtField_username().getText());
                     read.setGetUsername(users_profile.getTxtField_username().getText());
-                    read.setGetPassword(String.valueOf(Boolean.parseBoolean(String.valueOf(users_profile.getPasswordField_password().getPassword()))));
-                }
-                else {
-                    JOptionPane.showMessageDialog(users_profile.getPanelMain(),"UPDATE FAILED");
+                    read.setGetPassword
+                            (String.valueOf
+                                    (Boolean.parseBoolean
+                                            (String.valueOf
+                                                    (users_profile.
+                                                            getPasswordField_password().
+                                                            getPassword()))));
+                } else {
+                    JOptionPane.showMessageDialog(users_profile.getPanelMain(), "UPDATE FAILED");
                 }
             }
         });
@@ -447,13 +466,18 @@ public class MAIN {
         users_profile.getEditButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (users_profile.getTxtField_username().isEditable()){
+                if (users_profile.getTxtField_username().isEditable()) {
                     users_profile.getTxtField_username().setEditable(false);
                     users_profile.getPasswordField_password().setEditable(false);
-                }
-                else {
+                    users_profile.getTxtField_fname().setEditable(false);
+                    users_profile.getTxtField_lname().setEditable(false);
+                    users_profile.getTxtField_email().setEditable(false);
+                } else {
                     users_profile.getTxtField_username().setEditable(true);
                     users_profile.getPasswordField_password().setEditable(true);
+                    users_profile.getTxtField_fname().setEditable(true);
+                    users_profile.getTxtField_lname().setEditable(true);
+                    users_profile.getTxtField_email().setEditable(true);
                 }
             }
         });

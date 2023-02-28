@@ -50,25 +50,30 @@ public class CREATE {
         setSecret_recovery_phrase("");
     }
 
-    public void insert_user(String username, String password, String secret_recovery_phrase){
+    public void insert_user(String username, String password, String secret_recovery_phrase, String fname, String lname, String email){
         try {
             System.out.println("calling db ->>" + Database.getConnection());
             Connection conn = Database.getConnection();
             System.out.println(conn);
             Statement stmt = conn.createStatement();
-            String query = "INSERT INTO `users`(`USERNAME`, `PASSWORD`, `secretRecoveryPhrase`) VALUES " +
-                    "('" + username + "'"+
+            String query = "INSERT INTO `users`(`USERNAME`, `PASSWORD`, `secretRecoveryPhrase`, `FNAME`, `LNAME`, `EMAIL`) VALUES " +
+                    "('" + username              + "'"+
                     "," +
-                    "'" + password + "'"+
+                    "'" + password               + "'"+
                     "," +
-                    "'" + secret_recovery_phrase + "'"+")";
+                    "'" + secret_recovery_phrase + "'"+
+                    "," +
+                    "'" + fname                  + "'"+
+                    "," +
+                    "'" + lname                  + "'"+
+                    "," +
+                    "'" + email                  +"'"+")";
             PreparedStatement ps = conn.prepareStatement(query);
-            boolean result = stmt.execute(query);
-
-
+            ps.execute();
             stmt.close();
             conn.close();
         } catch (Exception e) {
+            e.printStackTrace();
             if (e.getMessage().equals("Duplicate entry '"+username+"' for key 'USERNAME'"
             )){
                 setDuplicate(true);
@@ -81,7 +86,6 @@ public class CREATE {
 class testcreate{
     public static void main(String[] args) {
         CREATE c = new CREATE();
-        c.insert_user("testing","helloworld","1234");
         System.out.println(c.isDuplicate());
     }
 }

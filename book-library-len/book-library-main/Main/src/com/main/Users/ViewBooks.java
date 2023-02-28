@@ -1,7 +1,10 @@
 package com.main.Users;
 
 import javax.swing.*;
+import javax.swing.plaf.TableUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class ViewBooks extends JFrame{
 
@@ -36,6 +39,9 @@ public class ViewBooks extends JFrame{
     }
 
     public ViewBooks() {
+
+
+
         setContentPane(getPanelMain());
         setTitle("Jomari Abejo");
         setSize(800, 600);
@@ -105,6 +111,17 @@ public class ViewBooks extends JFrame{
         DefaultTableModel dtm = new DefaultTableModel(data,headers);
         getBooksTable().setModel(dtm);
         getJscroll().getViewport().add(getBooksTable());
+
+
+        TableColumnModel columnModel = getBooksTable().getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(1).setPreferredWidth(450);
+        columnModel.getColumn(2).setPreferredWidth(50);
+        columnModel.getColumn(3).setPreferredWidth(50);
+
+
+
+
     }
 }
 

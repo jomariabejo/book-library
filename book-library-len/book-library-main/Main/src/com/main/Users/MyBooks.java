@@ -1,11 +1,13 @@
 package com.main.Users;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class MyBooks extends JFrame{
     private JPanel panelMain;
     private JTable myBooksTable;
     private JButton goBackButton;
+    private JScrollPane jScrollpane;
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -29,6 +31,16 @@ public class MyBooks extends JFrame{
 
     public void setGoBackButton(JButton goBackButton) {
         this.goBackButton = goBackButton;
+    }
+
+    public DefaultTableModel mybooks_dtm;
+
+    public JScrollPane getjScrollpane() {
+        return jScrollpane;
+    }
+
+    public void setjScrollpane(JScrollPane jScrollpane) {
+        this.jScrollpane = jScrollpane;
     }
 
     public MyBooks() {

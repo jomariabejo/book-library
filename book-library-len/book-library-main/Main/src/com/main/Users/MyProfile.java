@@ -67,6 +67,30 @@ public class MyProfile extends JFrame {
         this.lbl_password = lbl_password;
     }
 
+    public JTextField getTxtField_fname() {
+        return txtField_fname;
+    }
+
+    public void setTxtField_fname(JTextField txtField_fname) {
+        this.txtField_fname = txtField_fname;
+    }
+
+    public JTextField getTxtField_lname() {
+        return txtField_lname;
+    }
+
+    public void setTxtField_lname(JTextField txtField_lname) {
+        this.txtField_lname = txtField_lname;
+    }
+
+    public JTextField getTxtField_email() {
+        return txtField_email;
+    }
+
+    public void setTxtField_email(JTextField txtField_email) {
+        this.txtField_email = txtField_email;
+    }
+
     private JPanel panelMain;
     private JTextField txtField_username;
     private JPasswordField passwordField_password;
@@ -75,6 +99,9 @@ public class MyProfile extends JFrame {
     private JButton editButton;
     private JLabel lbl_username;
     private JLabel lbl_password;
+    private JTextField txtField_fname;
+    private JTextField txtField_lname;
+    private JTextField txtField_email;
 
     public MyProfile() {
         setContentPane(getPanelMain());

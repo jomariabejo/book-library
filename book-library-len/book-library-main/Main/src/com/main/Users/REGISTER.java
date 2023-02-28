@@ -168,6 +168,15 @@ public class REGISTER extends JFrame{
         setVisible(false);
 
     }
+    public void RESETVALUES(){
+        getTxtField_username().setText("");
+        getTxtField_email().setText("");
+        getTxtField_firstname().setText("");
+        getTxtField_lastname().setText("");
+        getPwdField_password().setText("");
+        getPwdField_password_confirm().setText("");
+        getPwdField_recoveryphrase().setText("");
+    }
 }
 
 class testregister{

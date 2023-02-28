@@ -14,6 +14,9 @@ public class READ {
     private boolean isPassword;
     private String getUsername;
     private String getPassword;
+    private String getFirstName;
+    private String getLastName;
+    private String getEmail;
     private int ID;
 
     public boolean isAdmin() {
@@ -62,6 +65,30 @@ public class READ {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public String getGetFirstName() {
+        return getFirstName;
+    }
+
+    public void setGetFirstName(String getFirstName) {
+        this.getFirstName = getFirstName;
+    }
+
+    public String getGetLastName() {
+        return getLastName;
+    }
+
+    public void setGetLastName(String getLastName) {
+        this.getLastName = getLastName;
+    }
+
+    public String getGetEmail() {
+        return getEmail;
+    }
+
+    public void setGetEmail(String getEmail) {
+        this.getEmail = getEmail;
     }
 
     public void printBooks() throws SQLException {
@@ -129,6 +156,10 @@ public class READ {
                 ) {
                     setGetUsername(rs.getString("USERNAME"));
                     setGetPassword(rs.getString("PASSWORD"));
+                    setGetFirstName(rs.getString("FNAME"));
+                    setGetLastName(rs.getString("LNAME"));
+                    setGetEmail(rs.getString("EMAIL"));
+
                     setUser(true);
                     setPassword(true);
                     setID(rs.getInt("UID"));
@@ -216,20 +247,19 @@ public class READ {
         try {
             Connection conn = Database.getConnection();
             Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM ISSUED";
+            String query = "SELECT * FROM ISSUED WHERE UID = "+UID;
             PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             System.out.println(rs.last());
             int numRow = rs.getRow();
             rs.beforeFirst();
             int row = 0;
-            String[] headerBooks = {"IID", "UID", "ISSUED_DATE", "PERIOD"};
-            String[][] dataBooks = new String[numRow][4];
+            String[] headerBooks = {"IID", "ISSUED_DATE", "PERIOD"};
+            String[][] dataBooks = new String[numRow][3];
             while (rs.next()) {
                 dataBooks[row][0] = (String.valueOf(rs.getInt("IID")));
-                dataBooks[row][1] = (String.valueOf(rs.getInt("UID")));
-                dataBooks[row][2] = (String.valueOf(rs.getString("ISSUED_DATE")));
-                dataBooks[row][3] = (String.valueOf(rs.getInt("PERIOD")));
+                dataBooks[row][1] = (String.valueOf(rs.getString("ISSUED_DATE")));
+                dataBooks[row][2] = (String.valueOf(rs.getInt("PERIOD")));
                 row++;
             }
             setUsersBooksDTM(new DefaultTableModel (dataBooks,headerBooks));
@@ -262,7 +292,8 @@ public class READ {
 //        books.getMyBooksTable().setModel(dtm);
 //        books.setVisible(true);
 
-
             r.usersBooks("2");
+            books.getMyBooksTable().setModel(r.getBooksDTM());
+            books.setVisible(true);
         }
     }

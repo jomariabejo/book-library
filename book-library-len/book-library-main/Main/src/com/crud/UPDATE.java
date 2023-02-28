@@ -17,22 +17,26 @@ public class UPDATE {
         this.UPDATE_PROCESS = UPDATE_PROCESS;
     }
 
-    public void UPDATE_USERPROFILE(String old_username, String n_username , String n_password) throws SQLException {
+    public void UPDATE_USERPROFILE(String old_username, String n_username, String n_password, String fname, String lname, String email) throws SQLException {
 
 
-        try{
+        try {
 
             Connection conn = Database.getConnection();
-            Statement  stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
-            String query = "UPDATE `users` SET `USERNAME`='"+n_username+"',`PASSWORD`='"+n_password+"' WHERE USERNAME ='"+old_username+"'";
+            String query = "UPDATE `users` SET " +
+                    "`USERNAME`='" + n_username +
+                    "',`PASSWORD`='" + n_password +
+                    "',`FNAME`='" + fname +
+                    "',`LNAME`='" + lname +
+                    "',`EMAIL`='" + email +
+                    "' WHERE USERNAME ='" + old_username + "'";
             stmt.executeUpdate(query);
             stmt.close();
             conn.close();
-            System.out.println("Updated Successfully");
             this.UPDATE_PROCESS = "success";
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             this.UPDATE_PROCESS = "failed";
         }
@@ -43,6 +47,7 @@ class testUps{
     public static void main(String[] args) throws SQLException {
         READ r = new READ();
         UPDATE u = new UPDATE();
-        u.UPDATE_USERPROFILE("jomariabejo","jjoommaarriiaabbeejjoo","helloworld");
+        u.UPDATE_USERPROFILE("jjoommaarriiaabbeejjoo","jomariabejo","helloworld","Jomari","Abejo","jomariabejo@gmail.com");
+        System.out.println(u.getUPDATE_PROCESS());
     }
 }
