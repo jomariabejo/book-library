@@ -52,8 +52,8 @@ public class CREATE {
 
     public void insert_user(String username, String password, String secret_recovery_phrase, String fname, String lname, String email){
         try {
-            System.out.println("calling db ->>" + Database.getConnection());
-            Connection conn = Database.getConnection();
+            System.out.println("calling db ->>" + Database.getConnectionLibrary());
+            Connection conn = Database.getConnectionLibrary();
             System.out.println(conn);
             Statement stmt = conn.createStatement();
             String query = "INSERT INTO `users`(`USERNAME`, `PASSWORD`, `secretRecoveryPhrase`, `FNAME`, `LNAME`, `EMAIL`) VALUES " +
@@ -81,11 +81,31 @@ public class CREATE {
             else setDuplicate(false);
         }
     }
-}
+    public void admin_create_user(String username, String fname, String lname, String email){
+        try {
+            System.out.println("calling db ->>" + Database.getConnectionLibrary());
+            Connection conn = Database.getConnectionLibrary();
+            System.out.println(conn);
+            Statement stmt = conn.createStatement();
+            String query = "INSERT INTO `users`(`USERNAME`,`FNAME`, `LNAME`, `EMAIL`) VALUES " +
+                    "('" + username              + "'"+
+                    "," +
+                    "'" + fname                  + "'"+
+                    "," +
+                    "'" + lname                  + "'"+
+                    "," +
+                    "'" + email                  +"'"+")";
 
-class testcreate{
-    public static void main(String[] args) {
-        CREATE c = new CREATE();
-        System.out.println(c.isDuplicate());
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.execute();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            if (e.getMessage().equals("Duplicate entry '"+username+"' for key 'USERNAME'"
+            )){
+                setDuplicate(true);
+            }
+            else setDuplicate(false);
+        }
     }
 }
