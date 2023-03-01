@@ -119,7 +119,7 @@ public class Admin implements Runnable {
 
 
     /*
-     * ADDBOOK START
+     * ADDUSER START
      */
 
         ActionListener listenerAddUser = new ActionListener() {
@@ -161,7 +161,7 @@ public class Admin implements Runnable {
         adduser.getClearFieldsButton().addActionListener(listenerAddUser);
 
     /*
-     * ADDBOOK END
+     * ADDUSER END
      */
     }
 }
