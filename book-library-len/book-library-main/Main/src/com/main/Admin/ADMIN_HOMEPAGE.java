@@ -15,6 +15,70 @@ public class ADMIN_HOMEPAGE extends JFrame{
     private JButton issueBookButton;
     private JButton createResetButton;
 
+    public JButton getViewBooksButton() {
+        return viewBooksButton;
+    }
+
+    public void setViewBooksButton(JButton viewBooksButton) {
+        this.viewBooksButton = viewBooksButton;
+    }
+
+    public JButton getAddUserButton() {
+        return addUserButton;
+    }
+
+    public void setAddUserButton(JButton addUserButton) {
+        this.addUserButton = addUserButton;
+    }
+
+    public JButton getViewUsersButton() {
+        return viewUsersButton;
+    }
+
+    public void setViewUsersButton(JButton viewUsersButton) {
+        this.viewUsersButton = viewUsersButton;
+    }
+
+    public JButton getAddBookButton() {
+        return addBookButton;
+    }
+
+    public void setAddBookButton(JButton addBookButton) {
+        this.addBookButton = addBookButton;
+    }
+
+    public JButton getViewIssuedBooksButton() {
+        return viewIssuedBooksButton;
+    }
+
+    public void setViewIssuedBooksButton(JButton viewIssuedBooksButton) {
+        this.viewIssuedBooksButton = viewIssuedBooksButton;
+    }
+
+    public JButton getReturnBookButton() {
+        return returnBookButton;
+    }
+
+    public void setReturnBookButton(JButton returnBookButton) {
+        this.returnBookButton = returnBookButton;
+    }
+
+    public JButton getIssueBookButton() {
+        return issueBookButton;
+    }
+
+    public void setIssueBookButton(JButton issueBookButton) {
+        this.issueBookButton = issueBookButton;
+    }
+
+    public JButton getCreateResetButton() {
+        return createResetButton;
+    }
+
+    public void setCreateResetButton(JButton createResetButton) {
+        this.createResetButton = createResetButton;
+    }
+
     public JPanel getPanelMain() {
         return panelMain;
     }
@@ -29,54 +93,6 @@ public class ADMIN_HOMEPAGE extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-            viewBooksButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("View books Clicked");
-                }
-            });
-            viewUsersButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("View users Clicked");
-                }
-            });
-            viewIssuedBooksButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("View issuedBooks Clicked");
-                }
-            });
-            issueBookButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Issue book Clicked");
-                }
-            });
-            addUserButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Add user Clicked");
-                }
-            });
-            addBookButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Add Book Clicked");
-                }
-            });
-            returnBookButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Return Book Clicked");
-                }
-            });
-            createResetButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Create reset Clicked");
-                }
-            });
         }
 }
 
