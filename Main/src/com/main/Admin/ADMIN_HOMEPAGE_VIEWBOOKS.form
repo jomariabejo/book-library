@@ -11,13 +11,13 @@
       <component id="cd662" class="javax.swing.JTable" binding="tbl_ViewBooks">
         <constraints>
           <grid row="0" column="1" row-span="2" col-span="4" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="750" height="550"/>
+            <preferred-size width="750" height="400"/>
           </grid>
         </constraints>
         <properties>
           <autoResizeMode value="4"/>
           <font size="24"/>
-          <preferredScrollableViewportSize width="750" height="500"/>
+          <preferredScrollableViewportSize width="750" height="400"/>
           <rowHeight value="40"/>
           <rowMargin value="3"/>
         </properties>
@@ -29,12 +29,12 @@
       </hspacer>
       <component id="5ffc8" class="javax.swing.JButton" binding="goBackButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font size="24"/>
           <horizontalTextPosition value="0"/>
-          <text value="Go Back"/>
+          <text value="Back"/>
         </properties>
       </component>
       <scrollpane id="ed9a8" binding="jScrollPane">

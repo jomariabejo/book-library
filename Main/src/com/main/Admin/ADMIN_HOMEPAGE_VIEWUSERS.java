@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
-public class ADMIN_HOMEPAGE_VIEWUSERS extends JFrame{
+public class ADMIN_HOMEPAGE_VIEWUSERS extends JFrame {
     private JPanel panelMain;
     private JTable usersTable;
     private JButton goBackButton;
@@ -43,7 +43,7 @@ public class ADMIN_HOMEPAGE_VIEWUSERS extends JFrame{
         this.jScrollpane = jScrollpane;
     }
 
-    public ADMIN_HOMEPAGE_VIEWUSERS(){
+    public ADMIN_HOMEPAGE_VIEWUSERS() {
 
         String[] headers = {
                 "ID",
@@ -54,16 +54,52 @@ public class ADMIN_HOMEPAGE_VIEWUSERS extends JFrame{
         };
 
         String[][] data = {
-                {"hi","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
-                {"asdf","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
-                {"qwer","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
-                {"hgf","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
-                {"","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
-                {"","jomariabejo","Jomari","Abejo","jomariabejo@gmail.com"},
+                {
+                        "hi",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
+                {
+                        "asdf",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
+                {
+                        "qwer",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
+                {
+                        "hgf",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
+                {
+                        "",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
+                {
+                        "",
+                        "jomariabejo",
+                        "Jomari",
+                        "Abejo",
+                        "jomariabejo@gmail.com"
+                },
 
         };
 
-        DefaultTableModel dtm = new DefaultTableModel(data,headers);
+        DefaultTableModel dtm = new DefaultTableModel(data, headers);
         getUsersTable().setModel(dtm);
         getjScrollpane().getViewport().add(getUsersTable());
         TableColumnModel columnModel = getUsersTable().getColumnModel();
@@ -77,17 +113,12 @@ public class ADMIN_HOMEPAGE_VIEWUSERS extends JFrame{
         getUsersTable().setRowHeight(60, 60);
         getUsersTable().setRowHeight(40);
         setContentPane(getPanelMain());
-
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-    }
-}
-class testp{
-    public static void main(String[] args) {
-        ADMIN_HOMEPAGE_VIEWUSERS v = new ADMIN_HOMEPAGE_VIEWUSERS();
-        v.setVisible(true);
     }
 }

@@ -1,6 +1,7 @@
 package com.main.Users;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class USERS_PROFILE extends JFrame {
     public JPanel getPanelMain() {
@@ -105,12 +106,13 @@ public class USERS_PROFILE extends JFrame {
 
     public USERS_PROFILE() {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-
 
     }
 }

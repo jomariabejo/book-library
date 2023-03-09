@@ -3,7 +3,7 @@ package com.main.Admin;
 import javax.swing.*;
 import java.awt.*;
 
-public class ADMIN_HOMEPAGE_RETURNBOOK extends JFrame{
+public class ADMIN_HOMEPAGE_RETURNBOOK extends JFrame {
 
     private JPanel panelMain;
     private JTextField textField_IssueId;
@@ -68,8 +68,10 @@ public class ADMIN_HOMEPAGE_RETURNBOOK extends JFrame{
     public void setLbl_ReturnDate(JLabel lbl_ReturnDate) {
         this.lbl_ReturnDate = lbl_ReturnDate;
     }
-    public ADMIN_HOMEPAGE_RETURNBOOK(){
+    public ADMIN_HOMEPAGE_RETURNBOOK() {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

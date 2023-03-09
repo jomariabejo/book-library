@@ -1,6 +1,7 @@
 import com.crud.*;
 import com.main.Admin.*;
 import com.main.Users.*;
+import com.main.database.Database;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -34,11 +35,11 @@ public class MAIN {
     /*
      *  ADMIN GUI
      */
-    static ADMIN_HOMEPAGE home = new ADMIN_HOMEPAGE();
+    static ADMIN_HOMEPAGE admin_homepage = new ADMIN_HOMEPAGE();
     static ADMIN_HOMEPAGE_ADDUSER adduser = new ADMIN_HOMEPAGE_ADDUSER();
     static ADMIN_HOMEPAGE_ADDBOOK addbook = new ADMIN_HOMEPAGE_ADDBOOK();
-    static ADMIN_HOMEPAGE_CREATERESET create_or_reset =
-            new ADMIN_HOMEPAGE_CREATERESET();
+    static ADMIN_HOMEPAGE_RESET reset =
+            new ADMIN_HOMEPAGE_RESET();
     static ADMIN_HOMEPAGE_ISSUEBOOK issuebook = new ADMIN_HOMEPAGE_ISSUEBOOK();
     static ADMIN_HOMEPAGE_RETURNBOOK returnbook = new ADMIN_HOMEPAGE_RETURNBOOK();
     static ADMIN_HOMEPAGE_VIEWBOOKS viewbooks = new ADMIN_HOMEPAGE_VIEWBOOKS();
@@ -46,11 +47,13 @@ public class MAIN {
             new ADMIN_HOMEPAGE_VIEWISSUEDBOOKS();
     static ADMIN_HOMEPAGE_VIEWUSERS viewusers = new ADMIN_HOMEPAGE_VIEWUSERS();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         login.setVisible(true);
-
-        //  The program will start to login GUI.
+        /*
+         *  The program will start to login GUI.
+         */
         login.setVisible(true);
+        Database.getConnectionLibrary();
         login.getBtn_login().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +68,7 @@ public class MAIN {
                 if (read.isAdmin()) {
                     JOptionPane.showMessageDialog(
                             login.getPanelMain(), "Welcome back admin");
-                    home.setVisible(true);
+                    admin_homepage.setVisible(true);
                     login.dispose();
                 } else if (read.isUser()) {
                     JOptionPane.showMessageDialog(
@@ -89,6 +92,14 @@ public class MAIN {
                 login.dispose();
             }
         });
+        login.getBtn_forgotpassword().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Forgot Password Clicked");
+                forgotPwd.setVisible(true);
+                login.dispose();
+            }
+        });
         login.getBtn_login().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -102,16 +113,16 @@ public class MAIN {
 
                     read.check_admin_or_user(username, password);
 
-                    if (login.getTxtField_username().equals("")
-                            || login.getPwdField_password().getPassword().equals("")) {
+                    if (login.getTxtField_username().equals("") ||
+                            login.getPwdField_password().getPassword().equals("")) {
                         JOptionPane.showMessageDialog(
                                 login.getPanelMain(), "Ensure that every field has a value.");
                     }
                     if (read.isAdmin()) {
                         JOptionPane.showMessageDialog(
                                 login.getPanelMain(), "Welcome back admin");
-                        home.setVisible(true);
-                        home.setVisible(true);
+                        admin_homepage.setVisible(true);
+                        admin_homepage.setVisible(true);
                         login.dispose();
                     } else if (read.isUser()) {
                         JOptionPane.showMessageDialog(
@@ -139,18 +150,14 @@ public class MAIN {
                 }
             }
         });
-    /*
-        USERS_REGISTER GUI START
-     */
+        /*
+         *  USERS_REGISTER GUI
+         */
 
         register.getBtn_register().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Register Clicked");
-
-                //                String username, String password, String
-                //                secret_recovery_phrase, String fname, String lname,
-                //                String email
                 create.insert_user(register.getTxtField_username().getText(),
                         String.valueOf(
                                 register.getPwdField_password_confirm().getPassword()),
@@ -159,27 +166,27 @@ public class MAIN {
                         register.getTxtField_lastname().getText(),
                         register.getTxtField_email().getText());
 
-                if (register.getTxtField_username().getText().equals("")
-                        || String
-                        .valueOf(register.getPwdField_recoveryphrase().getPassword())
-                        .equals("")
-                        || String
-                        .valueOf(
-                                register.getPwdField_password_confirm().getPassword())
-                        .equals("")) {
+                if (register.getTxtField_username().getText().equals("") ||
+                        String
+                                .valueOf(register.getPwdField_recoveryphrase().getPassword())
+                                .equals("") ||
+                        String
+                                .valueOf(
+                                        register.getPwdField_password_confirm().getPassword())
+                                .equals("")) {
                     JOptionPane.showMessageDialog(
                             register.getPanelMain(), "Fill in the fields");
                 }
 
-                if (!register.getTxtField_username().getText().equals("")
-                        && !String
-                        .valueOf(
-                                register.getPwdField_password_confirm().getPassword())
-                        .equals("")
-                        && !String
-                        .valueOf(
-                                register.getPwdField_recoveryphrase().getPassword())
-                        .equals("")) {
+                if (!register.getTxtField_username().getText().equals("") &&
+                        !String
+                                .valueOf(
+                                        register.getPwdField_password_confirm().getPassword())
+                                .equals("") &&
+                        !String
+                                .valueOf(
+                                        register.getPwdField_recoveryphrase().getPassword())
+                                .equals("")) {
                     if (String
                             .valueOf(
                                     register.getPwdField_password_confirm().getPassword())
@@ -230,28 +237,28 @@ public class MAIN {
                             register.getTxtField_lastname().getText(),
                             register.getTxtField_email().getText());
 
-                    if (register.getTxtField_username().getText().equals("")
-                            || String
-                            .valueOf(
-                                    register.getPwdField_recoveryphrase().getPassword())
-                            .equals("")
-                            || String
-                            .valueOf(
-                                    register.getPwdField_password_confirm().getPassword())
-                            .equals("")) {
+                    if (register.getTxtField_username().getText().equals("") ||
+                            String
+                                    .valueOf(
+                                            register.getPwdField_recoveryphrase().getPassword())
+                                    .equals("") ||
+                            String
+                                    .valueOf(
+                                            register.getPwdField_password_confirm().getPassword())
+                                    .equals("")) {
                         JOptionPane.showMessageDialog(
                                 register.getPanelMain(), "Fill in the fields");
                     }
 
-                    if (!register.getTxtField_username().getText().equals("")
-                            && !String
-                            .valueOf(
-                                    register.getPwdField_password_confirm().getPassword())
-                            .equals("")
-                            && !String
-                            .valueOf(
-                                    register.getPwdField_recoveryphrase().getPassword())
-                            .equals("")) {
+                    if (!register.getTxtField_username().getText().equals("") &&
+                            !String
+                                    .valueOf(
+                                            register.getPwdField_password_confirm().getPassword())
+                                    .equals("") &&
+                            !String
+                                    .valueOf(
+                                            register.getPwdField_recoveryphrase().getPassword())
+                                    .equals("")) {
                         if (String
                                 .valueOf(
                                         register.getPwdField_password_confirm().getPassword())
@@ -285,13 +292,37 @@ public class MAIN {
                 }
             }
         });
+        /*
+         *  FORGOTPASSWORD
+         */
 
-
-
-    /*
-        USER HOMEPAGE START
-     */
-
+        forgotPwd.getBtn_recovery().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand() + "Clicked");
+                try {
+                    update.resetpassword(forgotPwd.getTxtField_username().getText(),
+                            String.valueOf(forgotPwd.getPwd_recovery_phrase().getPassword()));
+                    JOptionPane.showMessageDialog(forgotPwd.getPanelMain(),
+                            update.getResetpasswordMessage());
+                    forgotPwd.dispose();
+                    login.setVisible(true);
+                } catch (Exception eResetPassword) {
+                    System.out.println(eResetPassword.getMessage());
+                }
+            }
+        });
+        forgotPwd.getBtn_go_back().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand() + "Clicked");
+                forgotPwd.dispose();
+                login.setVisible(true);
+            }
+        });
+        /*
+         *  USER HOMEPAGE
+         */
         users_homepage.myProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -362,9 +393,9 @@ public class MAIN {
                 users_homepage.dispose();
             }
         });
-    /*
-        My Profile Start
-     */
+        /*
+         *  My Profile
+         */
 
         users_profile.getEditButton().addActionListener(new ActionListener() {
             @Override
@@ -416,9 +447,9 @@ public class MAIN {
             }
         });
 
-    /*
-         USERS_VIEWBOOKS Start
-     */
+        /*
+         *  USERS_VIEWBOOKS
+         */
 
         users_viewBooks.goBackButton.addActionListener(new ActionListener() {
             @Override
@@ -436,11 +467,9 @@ public class MAIN {
             }
         });
 
-
-
-    /*
-         Books Start
-     */
+        /*
+         *  Books
+         */
 
         users_books.getGoBackButton().addActionListener(new ActionListener() {
             @Override
@@ -451,10 +480,9 @@ public class MAIN {
             }
         });
 
-
-    /*
-       USERS_PROFILE Start
-     */
+        /*
+         *  USERS_PROFILE
+         */
 
         users_profile.getEditButton().addActionListener(new ActionListener() {
             @Override
@@ -497,7 +525,7 @@ public class MAIN {
                 changeFrame[4] = adduser;
                 changeFrame[5] = addbook;
                 changeFrame[6] = returnbook;
-                changeFrame[7] = create_or_reset;
+                changeFrame[7] = reset;
                 String[] arrAdminHomepageButtons = {
                         "View Books",
                         "View Users",
@@ -506,12 +534,13 @@ public class MAIN {
                         "Add User",
                         "Add Book",
                         "Return Book",
-                        "Create/Reset",
+                        "Clear Table",
                 };
-
+                System.out.println(e.getActionCommand());
                 for (int c = 0; c < arrAdminHomepageButtons.length; c++) {
                     if (e.getActionCommand().equals(arrAdminHomepageButtons[c])) {
                         changeFrame[c].setVisible(true);
+                        System.out.println(e.getActionCommand());
                         if (arrAdminHomepageButtons[c].equals("View Books")) {
                             read.showBooks();
                             viewbooks.getTbl_ViewBooks().setModel(read.getBooksDTM());
@@ -522,20 +551,34 @@ public class MAIN {
                             viewusers.getUsersTable().setModel(read.getListUsersDTM());
                             viewusers.getjScrollpane().getViewport().add(
                                     viewusers.getUsersTable());
+                        } else if (arrAdminHomepageButtons[c].equals("View Issued Books")) {
+                            System.out.println("HELLO");
+                            try {
+                                read.showIssuedBooks();
+                                viewissuedbooks.getTbl_IssuedBooks().setModel(read.getIssuedBooksDTM());
+                                viewissuedbooks.getjScroll().getViewport().add(
+                                        viewissuedbooks.getTbl_IssuedBooks());
+                            } catch (Exception ExceptionOnIssuedBooks) {
+                                ExceptionOnIssuedBooks.printStackTrace();
+                            }
+                        } else if (arrAdminHomepageButtons[c].equals("Issue Book")) {
+                            System.out.println("Issue Book Clicked");
+                        } else if (arrAdminHomepageButtons[c].equals("Clear Table")) {
+                            reset.setVisible(true);
+                            admin_homepage.dispose();
                         }
-                        home.dispose();
                     }
                 }
             }
         };
-        home.getAddBookButton().addActionListener(listenerAdminHomepage);
-        home.getAddUserButton().addActionListener(listenerAdminHomepage);
-        home.getCreateResetButton().addActionListener(listenerAdminHomepage);
-        home.getIssueBookButton().addActionListener(listenerAdminHomepage);
-        home.getViewBooksButton().addActionListener(listenerAdminHomepage);
-        home.getReturnBookButton().addActionListener(listenerAdminHomepage);
-        home.getViewIssuedBooksButton().addActionListener(listenerAdminHomepage);
-        home.getViewUsersButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getAddBookButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getAddUserButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getCreateResetButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getIssueBookButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getViewBooksButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getReturnBookButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getViewIssuedBooksButton().addActionListener(listenerAdminHomepage);
+        admin_homepage.getViewUsersButton().addActionListener(listenerAdminHomepage);
 
         /*
          * ADDUSER
@@ -546,7 +589,7 @@ public class MAIN {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals("Go Back")) {
                     System.out.println("Go Back");
-                    home.setVisible(true);
+                    admin_homepage.setVisible(true);
                     adduser.dispose();
                 } else if (e.getActionCommand().equals("Clear Fields")) {
                     System.out.println("Clear Fields");
@@ -556,11 +599,11 @@ public class MAIN {
                     create.admin_create_user(adduser.uname(), adduser.fname(),
                             adduser.lname(), adduser.email());
                     JOptionPane.showMessageDialog(adduser.getPanelMain(),
-                            create.isDuplicate() ? ("Account already Exist")
-                                    : ("Added Successfully"));
+                            create.isDuplicate() ? ("Account already Exist") :
+                                    ("Added Successfully"));
 
                     if (!create.isDuplicate()) {
-                        home.setVisible(true);
+                        admin_homepage.setVisible(true);
                         adduser.dispose();
                     } else
                         create.setDuplicate(false);
@@ -572,7 +615,7 @@ public class MAIN {
         adduser.getClearFieldsButton().addActionListener(listenerAddUser);
 
         /*
-         * ADDBOOK START
+         * ADDBOOK
          */
 
         ActionListener listenerAddBook = new ActionListener() {
@@ -584,7 +627,7 @@ public class MAIN {
                         "Submit",
                 };
                 if (e.getActionCommand().equals(addBookBtn[0])) {
-                    home.setVisible(true);
+                    admin_homepage.setVisible(true);
                     addbook.clearFields();
                     addbook.dispose();
                 } else if (e.getActionCommand().equals(addBookBtn[1])) {
@@ -593,6 +636,13 @@ public class MAIN {
                     System.out.println("Execute Query");
                     create.addNewBook(
                             addbook.BNAME(), addbook.BGENRE(), addbook.BPRICE());
+                    JOptionPane.showMessageDialog(addbook.getPanelMain(), "Book added successfully.");
+                    addbook.getTextField_Price().setText("");
+                    addbook.getTextField_BookName().setText("");
+                    addbook.getTextField_Genre().setText("");
+
+                    admin_homepage.setVisible(true);
+                    addbook.dispose();
                 }
             }
         };
@@ -601,14 +651,14 @@ public class MAIN {
         addbook.getSubmitButton().addActionListener(listenerAddBook);
 
         /*
-         * VIEWBOOKS START
+         * VIEWBOOKS
          */
 
         ActionListener listenerViewBooks = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand().equals("Go Back")) {
-                    home.setVisible(true);
+                if (e.getActionCommand().equals("Back")) {
+                    admin_homepage.setVisible(true);
                     viewbooks.dispose();
                 }
             }
@@ -621,8 +671,8 @@ public class MAIN {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(e.getActionCommand());
-                if (e.getActionCommand().equals("Go Back")) {
-                    home.setVisible(true);
+                if (e.getActionCommand().equals("Back")) {
+                    admin_homepage.setVisible(true);
                     viewusers.dispose();
                 }
             }
@@ -635,12 +685,118 @@ public class MAIN {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(e.getActionCommand());
-                if (e.getActionCommand().equals("Go Back")){
-                    home.setVisible(true);
+                if (e.getActionCommand().equals("Back")) {
+                    admin_homepage.setVisible(true);
                     viewissuedbooks.dispose();
                 }
             }
         };
         viewissuedbooks.getGoBackButton().addActionListener(listenerViewIssuedBooks);
+        ActionListener listenerIssueBook = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getActionCommand().equals("Go Back")) {
+                    admin_homepage.setVisible(true);
+                    issuebook.dispose();
+                }
+                if (e.getActionCommand().equals("Clear Fields")) {
+                    issuebook.clearFields();
+                    System.out.println("2");
+                }
+                if (e.getActionCommand().equals("Submit"))
+                    try {
+                        create.issueBook(
+                                issuebook.getTextField_UserId().getText(),
+                                issuebook.getTextField_BookId().getText(),
+                                issuebook.getTxtField_IssuedDate().getText(),
+                                issuebook.getTxtField_Period().getText());
+                        JOptionPane.showMessageDialog(issuebook.getPanelMain(), "Book has been issued.");
+                        admin_homepage.setVisible(true);
+                        issuebook.dispose();
+                    }
+                    catch (Exception E) {
+                        E.printStackTrace();
+                    }
+            }
+        };
+
+        /*
+         *  ISSUE BOOK
+         */
+
+        issuebook.getClearFieldsButton().addActionListener(listenerIssueBook);
+        issuebook.getSubmitButton().addActionListener(listenerIssueBook);
+        issuebook.getGoBackButton().addActionListener(listenerIssueBook);
+
+        /*
+         *  RETURN BOOK
+         */
+        ActionListener listenerReturnBook = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand());
+                if (e.getActionCommand().equals("Go Back")) {
+                    System.out.println("Go Back Clicked");
+                    admin_homepage.setVisible(true);
+                    returnbook.dispose();
+                }
+                if (e.getActionCommand().equals("Submit")) {
+                    String IID = returnbook.getTextField_IssueId().getText();
+                    String returnDate = returnbook.getTextField_ReturnDate().getText();
+                    try {
+                        update.UPDATE_RETURNBOOKDATE(IID, returnDate);
+                        update.UPDATE_FINE(IID);
+                        JOptionPane.showMessageDialog(returnbook.getPanelMain(), "Updated successfully.");
+                        admin_homepage.setVisible(true);
+                        returnbook.dispose();
+                    } catch (Exception exe) {
+                        System.out.println(exe.getMessage());
+                        System.out.println("ERROR");
+                    }
+                    System.out.println("Return Clicked");
+                }
+            }
+        };
+        returnbook.getGoBackButton().addActionListener(listenerReturnBook);
+        returnbook.getReturnButton().addActionListener(listenerReturnBook);
+
+        /*
+         *  RESET
+         */
+        ActionListener listenerReset = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand());
+                try {
+                    if (e.getActionCommand().equals("Reset Books Table")) {
+                        delete.BOOKS();
+                        JOptionPane.showMessageDialog(reset.getPanelMain(), "cleaned table books");
+                    }
+                    if (e.getActionCommand().equals("Reset Issued Table")) {
+                        delete.ISSUED();
+                        JOptionPane.showMessageDialog(reset.getPanelMain(), "cleaned table issued");
+                    }
+                    if (e.getActionCommand().equals("Reset Users Table")) {
+                        delete.USERS();
+                        JOptionPane.showMessageDialog(reset.getPanelMain(), "cleaned table users");
+                        login.setVisible(true);
+                        create.insertAdmin();
+                        reset.dispose();
+                        login.getTxtField_username().setText("");
+                        login.getPwdField_password().setText("");
+                    }
+                    if (e.getActionCommand().equals("Go Back")) {
+                        admin_homepage.setVisible(true);
+                        reset.dispose();
+                    }
+                } catch (Exception eListenerReset) {
+                    eListenerReset.getMessage();
+                }
+            }
+        };
+        reset.getResetBooksBtn().addActionListener(listenerReset);
+        reset.getResetUsersBtn().addActionListener(listenerReset);
+        reset.getResetIssuedBtn().addActionListener(listenerReset);
+        reset.getGoBackButton().addActionListener(listenerReset);
     }
 }

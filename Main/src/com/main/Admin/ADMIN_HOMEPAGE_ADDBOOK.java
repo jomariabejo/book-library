@@ -1,10 +1,11 @@
 package com.main.Admin;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ADMIN_HOMEPAGE_ADDBOOK extends JFrame{
+public class ADMIN_HOMEPAGE_ADDBOOK extends JFrame {
     private JPanel panelMain;
     private JTextField textField_Genre;
     private JTextField textField_Price;
@@ -95,26 +96,28 @@ public class ADMIN_HOMEPAGE_ADDBOOK extends JFrame{
     public void setTextField_BookName(JTextField textField_BookName) {
         this.textField_BookName = textField_BookName;
     }
-    public ADMIN_HOMEPAGE_ADDBOOK(){
+    public ADMIN_HOMEPAGE_ADDBOOK() {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
     }
-    public void clearFields(){
+    public void clearFields() {
         getTextField_Price().setText("");
         getTextField_BookName().setText("");
         getTextField_Genre().setText("");
     }
-    public String BNAME(){
+    public String BNAME() {
         return getTextField_BookName().getText();
     }
-    public String BGENRE(){
+    public String BGENRE() {
         return getTextField_Genre().getText();
     }
-    public String BPRICE(){
+    public String BPRICE() {
         return getTextField_Price().getText();
     }
 }

@@ -4,8 +4,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ADMIN_HOMEPAGE_VIEWBOOKS extends JFrame{
+public class ADMIN_HOMEPAGE_VIEWBOOKS extends JFrame {
     private JTable tbl_ViewBooks;
     private JPanel panelMain;
     private JButton goBackButton;
@@ -42,7 +44,7 @@ public class ADMIN_HOMEPAGE_VIEWBOOKS extends JFrame{
     public void setGoBackButton(JButton goBackButton) {
         this.goBackButton = goBackButton;
     }
-    public ADMIN_HOMEPAGE_VIEWBOOKS(){
+    public ADMIN_HOMEPAGE_VIEWBOOKS() {
 
         String[] headers = {
                 "ID",
@@ -52,10 +54,15 @@ public class ADMIN_HOMEPAGE_VIEWBOOKS extends JFrame{
         };
 
         String[][] data = {
-            {"0","1","2","3"},
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
         };
 
-        DefaultTableModel dtm = new DefaultTableModel(data,headers);
+        DefaultTableModel dtm = new DefaultTableModel(data, headers);
         getTbl_ViewBooks().setModel(dtm);
         getjScrollPane().getViewport().add(getTbl_ViewBooks());
         TableColumnModel columnModel = getTbl_ViewBooks().getColumnModel();
@@ -67,16 +74,13 @@ public class ADMIN_HOMEPAGE_VIEWBOOKS extends JFrame{
         getTbl_ViewBooks().setRowHeight(0, 60);
         getTbl_ViewBooks().setRowHeight(40);
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-    }
-}
-class test{
-    public static void main(String[] args) {
-        ADMIN_HOMEPAGE_VIEWBOOKS amv = new ADMIN_HOMEPAGE_VIEWBOOKS();
-        amv.setVisible(true);
+
     }
 }

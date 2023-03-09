@@ -1,8 +1,14 @@
 package com.main.Admin;
 
-import javax.swing.*;
+import com.crud.CREATE;
+import com.crud.READ;
 
-public class ADMIN_HOMEPAGE_ISSUEBOOK extends JFrame{
+import javax.swing.*;
+import java.awt.*;
+import java.sql.SQLException;
+import java.text.ParseException;
+
+public class ADMIN_HOMEPAGE_ISSUEBOOK extends JFrame {
     private JTextField textField_BookId;
     private JTextField textField_UserId;
     private JTextField txtField_Period;
@@ -15,6 +21,7 @@ public class ADMIN_HOMEPAGE_ISSUEBOOK extends JFrame{
     private JTextField txtField_IssuedDate;
     private JButton goBackButton;
     private JPanel panelMain;
+    private String message;
 
     public JTextField getTextField_BookId() {
         return textField_BookId;
@@ -111,12 +118,29 @@ public class ADMIN_HOMEPAGE_ISSUEBOOK extends JFrame{
     public void setPanelMain(JPanel panelMain) {
         this.panelMain = panelMain;
     }
-    public ADMIN_HOMEPAGE_ISSUEBOOK(){
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public ADMIN_HOMEPAGE_ISSUEBOOK() {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
+    }
+    public void clearFields() {
+        getTextField_BookId().setText("");
+        getTextField_UserId().setText("");
+        getTxtField_IssuedDate().setText("");
+        getTxtField_Period().setText("");
     }
 }

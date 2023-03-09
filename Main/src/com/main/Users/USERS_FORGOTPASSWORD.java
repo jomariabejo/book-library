@@ -3,7 +3,7 @@ package com.main.Users;
 import javax.swing.*;
 import java.awt.*;
 
-public class USERS_FORGOTPASSWORD extends JFrame{
+public class USERS_FORGOTPASSWORD extends JFrame {
     private JPanel panelMain;
     private JTextField txtField_username;
     private JPasswordField pwd_recovery_phrase;
@@ -71,6 +71,8 @@ public class USERS_FORGOTPASSWORD extends JFrame{
 
     public USERS_FORGOTPASSWORD() throws HeadlessException {
         setContentPane(panelMain);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

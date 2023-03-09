@@ -1,10 +1,9 @@
 package com.main.Admin;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
-public class ADMIN_HOMEPAGE extends JFrame{
+public class ADMIN_HOMEPAGE extends JFrame {
     private JPanel panelMain;
     private JButton viewBooksButton;
     private JButton addUserButton;
@@ -13,7 +12,7 @@ public class ADMIN_HOMEPAGE extends JFrame{
     private JButton viewIssuedBooksButton;
     private JButton returnBookButton;
     private JButton issueBookButton;
-    private JButton createResetButton;
+    private JButton resetButton;
 
     public JButton getViewBooksButton() {
         return viewBooksButton;
@@ -72,11 +71,11 @@ public class ADMIN_HOMEPAGE extends JFrame{
     }
 
     public JButton getCreateResetButton() {
-        return createResetButton;
+        return resetButton;
     }
 
     public void setCreateResetButton(JButton createResetButton) {
-        this.createResetButton = createResetButton;
+        this.resetButton = createResetButton;
     }
 
     public JPanel getPanelMain() {
@@ -86,13 +85,14 @@ public class ADMIN_HOMEPAGE extends JFrame{
     public void setPanelMain(JPanel panelMain) {
         this.panelMain = panelMain;
     }
-        public ADMIN_HOMEPAGE(){
+    public ADMIN_HOMEPAGE() {
         setContentPane(getPanelMain());
         setTitle("Jomari Abejo");
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-        }
+    }
 }
-

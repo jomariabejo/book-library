@@ -1,6 +1,7 @@
 package com.main.Admin;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ADMIN_HOMEPAGE_ADDUSER extends JFrame{
     private JPanel panelMain;
@@ -132,6 +133,8 @@ public class ADMIN_HOMEPAGE_ADDUSER extends JFrame{
     }
     public ADMIN_HOMEPAGE_ADDUSER(){
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

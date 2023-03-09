@@ -70,12 +70,13 @@ public class USERS_HOMEPAGE extends JFrame {
 
     public USERS_HOMEPAGE() throws HeadlessException {
         setContentPane(panelMain);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(false);
-
 
     }
 }

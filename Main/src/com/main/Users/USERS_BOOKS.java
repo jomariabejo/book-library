@@ -2,8 +2,9 @@ package com.main.Users;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
-public class USERS_BOOKS extends JFrame{
+public class USERS_BOOKS extends JFrame {
     private JPanel panelMain;
     private JTable myBooksTable;
     private JButton goBackButton;
@@ -45,6 +46,8 @@ public class USERS_BOOKS extends JFrame{
 
     public USERS_BOOKS() {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

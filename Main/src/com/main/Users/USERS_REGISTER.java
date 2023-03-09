@@ -3,7 +3,7 @@ package com.main.Users;
 import javax.swing.*;
 import java.awt.*;
 
-public class USERS_REGISTER extends JFrame{
+public class USERS_REGISTER extends JFrame {
 
     private JPanel panelMain;
     private JTextField txtField_username;
@@ -161,6 +161,8 @@ public class USERS_REGISTER extends JFrame{
 
     public USERS_REGISTER() throws HeadlessException {
         setContentPane(panelMain);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -168,7 +170,7 @@ public class USERS_REGISTER extends JFrame{
         setVisible(false);
 
     }
-    public void RESETVALUES(){
+    public void RESETVALUES() {
         getTxtField_username().setText("");
         getTxtField_email().setText("");
         getTxtField_firstname().setText("");

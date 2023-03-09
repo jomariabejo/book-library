@@ -3,9 +3,9 @@ package com.main.Users;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 
-public class USERS_VIEWBOOKS extends JFrame{
-
+public class USERS_VIEWBOOKS extends JFrame {
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -15,7 +15,7 @@ public class USERS_VIEWBOOKS extends JFrame{
         this.panelMain = panelMain;
     }
 
-    public  JTable getBooksTable() {
+    public JTable getBooksTable() {
         return booksTable;
     }
 
@@ -38,9 +38,9 @@ public class USERS_VIEWBOOKS extends JFrame{
 
     public USERS_VIEWBOOKS() {
 
-
-
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -56,60 +56,299 @@ public class USERS_VIEWBOOKS extends JFrame{
         };
         String[][] data = {
 
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
-                {"0","1","2","3"},
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
+                {
+                        "0",
+                        "1",
+                        "2",
+                        "3"
+                },
         };
 
-        DefaultTableModel dtm = new DefaultTableModel(data,headers);
+        DefaultTableModel dtm = new DefaultTableModel(data, headers);
         getBooksTable().setModel(dtm);
         getJscroll().getViewport().add(getBooksTable());
-
 
         TableColumnModel columnModel = getBooksTable().getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
@@ -117,15 +356,5 @@ public class USERS_VIEWBOOKS extends JFrame{
         columnModel.getColumn(2).setPreferredWidth(50);
         columnModel.getColumn(3).setPreferredWidth(50);
 
-
-
-
-    }
-}
-
-class test{
-    public static void main(String[] args) {
-        USERS_VIEWBOOKS s = new USERS_VIEWBOOKS();
-        s.setVisible(true);
     }
 }

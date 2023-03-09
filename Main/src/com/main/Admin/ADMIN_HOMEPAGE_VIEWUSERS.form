@@ -22,7 +22,7 @@
         </constraints>
         <properties>
           <font size="24"/>
-          <text value="Go Back"/>
+          <text value="Back"/>
         </properties>
       </component>
       <component id="f8a73" class="javax.swing.JTable" binding="usersTable">
@@ -35,7 +35,7 @@
           <enabled value="true"/>
           <font size="18"/>
           <foreground color="-16777216"/>
-          <preferredScrollableViewportSize width="750" height="500"/>
+          <preferredScrollableViewportSize width="750" height="400"/>
           <rowHeight value="40"/>
           <rowMargin value="3"/>
         </properties>

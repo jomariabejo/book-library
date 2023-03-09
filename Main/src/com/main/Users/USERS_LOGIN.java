@@ -3,7 +3,7 @@ package com.main.Users;
 import javax.swing.*;
 import java.awt.*;
 
-public class USERS_LOGIN extends JFrame{
+public class USERS_LOGIN extends JFrame {
     private JPanel panelMain;
     private JPasswordField pwdField_password;
     private JButton btn_login;
@@ -11,6 +11,7 @@ public class USERS_LOGIN extends JFrame{
     private JLabel lbl_username;
     private JLabel lbl_password;
     private JTextField txtField_username;
+    private JButton btn_forgotpassword;
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -68,8 +69,18 @@ public class USERS_LOGIN extends JFrame{
         this.lbl_password = lbl_password;
     }
 
+    public JButton getBtn_forgotpassword() {
+        return btn_forgotpassword;
+    }
+
+    public void setBtn_forgotpassword(JButton btn_forgotpassword) {
+        this.btn_forgotpassword = btn_forgotpassword;
+    }
+
     public USERS_LOGIN() throws HeadlessException {
         setContentPane(getPanelMain());
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Prila\\Downloads\\book-library\\Main\\src\\com\\main\\iconJomariAbejo.jpeg");
+        setIconImage(icon);
         setTitle("Jomari Abejo");
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -77,15 +88,15 @@ public class USERS_LOGIN extends JFrame{
         setVisible(false);
     }
 
-    public String check_Fields(){
+    public String check_Fields() {
         if (getTxtField_username().getText().equals("") ||
-                getPwdField_password().getText().equals("")){
+                getPwdField_password().getText().equals("")) {
             return "Please enter information in the fields.";
         }
-        if (getTxtField_username().getText().equals("")){
+        if (getTxtField_username().getText().equals("")) {
             return "Put something in the username field.";
         }
-        if (getPwdField_password().getText().equals("")){
+        if (getPwdField_password().getText().equals("")) {
             return "Put something in the password field.";
         }
         return "";

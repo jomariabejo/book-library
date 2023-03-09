@@ -96,9 +96,7 @@ public class READ {
 
     public void printBooks() throws SQLException {
         try {
-            System.out.println("calling db ->>" + Database.getConnectionLibrary());
             Connection conn = Database.getConnectionLibrary();
-            System.out.println(conn);
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM books";
             PreparedStatement ps = conn.prepareStatement(query);
@@ -118,10 +116,9 @@ public class READ {
 
     public void check_admin_or_user(String username, String password) {
         try {
-            System.out.println("calling the check_admin_or_user");
             Connection conn = Database.getConnectionLibrary();
             Statement stmt = conn.createStatement();
-//            String query = "SELECT username, password, admin FROM users";
+            //            String query = "SELECT username, password, admin FROM users";
             String query = "SELECT * FROM users WHERE USERNAME = '" + username + "' AND PASSWORD ='" + password + "'";
             PreparedStatement pr = conn.prepareStatement(query);
             ResultSet rs = pr.executeQuery();
@@ -129,31 +126,31 @@ public class READ {
 
             reset_isUser_isAdmin_isPassword();
             while (rs.next()) {
-        /*
-            Check if USERNAME AND PASSWORD EQUALS TO
-            database USERS
-                IF
-                    username == db.users.username
-                    &&
-                    password == db.users.password
-                        setUser  = true
-                        setAdmin = false
-                        ACCOUNT USER FOUND
-                ELSE IF
-                    db.users.admin = true
-                        setUser  = false
-                        setAdmin = true
-                        ACCOUNT ADMIN FOUND
-                ELSE
-                    IF
-                        username == db.username
-                        and
-                        password != db.password
-                            setUser  = false
-                            setAdmin = false
-                    ELSE
-                        ACCOUNT NOT FOUND
-        */
+                /*
+                    Check if USERNAME AND PASSWORD EQUALS TO
+                    database USERS
+                        IF
+                            username == db.users.username
+                            &&
+                            password == db.users.password
+                                setUser  = true
+                                setAdmin = false
+                                ACCOUNT USER FOUND
+                        ELSE IF
+                            db.users.admin = true
+                                setUser  = false
+                                setAdmin = true
+                                ACCOUNT ADMIN FOUND
+                        ELSE
+                            IF
+                                username == db.username
+                                and
+                                password != db.password
+                                    setUser  = false
+                                    setAdmin = false
+                            ELSE
+                                ACCOUNT NOT FOUND
+                */
                 if (username.equals(rs.getString("USERNAME")) &&
                         password.equals(rs.getString("PASSWORD"))
                 ) {
@@ -169,18 +166,14 @@ public class READ {
                     if (rs.getString("USERNAME").equals("admin")) {
                         setUser(false);
                         setAdmin(true);
-                        System.out.println("THIS.ADMIN.FOUND");
                     }
-                    System.out.println("THIS.USER.FOUND");
                 } else {
                     if (username.equals(rs.getString("USERNAME")) &&
                             !password.equals(rs.getString("PASSWORD"))) {
                         setPassword(false);
-                        System.out.println("USERNAME PASSWORD INCORRECT");
                     } else if (!username.equals(rs.getString("USERNAME")) &&
                             !password.equals(rs.getString("PASSWORD"))) {
                         setPassword(false);
-                        System.out.println("USERNAME DOESN'T EXIST TO DB");
                     }
                 }
             }
@@ -207,16 +200,29 @@ public class READ {
 
     public void showBooks() {
         try {
+            //            Connection conn = Database.getConnectionLibrary();
+            //            Statement stmt = conn.createStatement();
+            //            String query = "SELECT * FROM books";
+            //            PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            //            ResultSet rs = ps.executeQuery();
+            //            int numRow = rs.getRow();
+            //            rs.beforeFirst();
+            //            int row = 0;
             Connection conn = Database.getConnectionLibrary();
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM books";
             PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.last());
+            rs.last();
             int numRow = rs.getRow();
             rs.beforeFirst();
             int row = 0;
-            String[] headerBooks = {"ID", "NAME", "GENRE", "PRICE"};
+            String[] headerBooks = {
+                    "ID",
+                    "NAME",
+                    "GENRE",
+                    "PRICE"
+            };
             String[][] dataBooks = new String[numRow][4];
             while (rs.next()) {
                 dataBooks[row][0] = (rs.getString("BID"));
@@ -226,8 +232,6 @@ public class READ {
                 row++;
             }
             setBooksDTM(new DefaultTableModel(dataBooks, headerBooks));
-
-
             rs.close();
             stmt.close();
             conn.close();
@@ -262,20 +266,30 @@ public class READ {
             String query = "SELECT * FROM ISSUED WHERE UID = " + UID;
             PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.last());
+            rs.last();
             int numRow = rs.getRow();
             rs.beforeFirst();
             int row = 0;
-            String[] headerBooks = {"IID", "ISSUED_DATE", "PERIOD"};
+            String[] headerBooks = {
+                    "IID",
+                    "ISSUED_DATE",
+                    "PERIOD"
+            };
             String[][] dataBooks = new String[numRow][3];
+            System.out.println("OUTSIDE");
             while (rs.next()) {
+                System.out.println("INSIDE");
                 dataBooks[row][0] = (String.valueOf(rs.getInt("IID")));
                 dataBooks[row][1] = (String.valueOf(rs.getString("ISSUED_DATE")));
                 dataBooks[row][2] = (String.valueOf(rs.getInt("PERIOD")));
                 row++;
             }
-            setUsersBooksDTM(new DefaultTableModel (dataBooks,headerBooks));
-            System.out.println("SUCCESS");
+            for (int out = 0; out < dataBooks.length; out++) {
+                for (int ins = 0; ins < dataBooks[out].length; ins++) {
+                    System.out.println(dataBooks[out][ins]);
+                }
+            }
+            setUsersBooksDTM(new DefaultTableModel(dataBooks, headerBooks));
             rs.close();
             stmt.close();
             conn.close();
@@ -290,11 +304,10 @@ public class READ {
             String query = "SELECT * FROM users";
             PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.last());
+            rs.last();
             int numRow = rs.getRow();
-            System.out.println("qwerty"+numRow);
-            rs.beforeFirst();
             int row = 0;
+            rs.beforeFirst();
 
             String[] headerBooks = {
                     "UID",
@@ -308,20 +321,14 @@ public class READ {
                 if (rs.getString("USERNAME").equals("admin")) {
                     continue;
                 }
-                    dataBooks[row][0] = (rs.getString("UID"));
-                    dataBooks[row][1] = (rs.getString("USERNAME"));
-                    dataBooks[row][2] = (rs.getString("FNAME"));
-                    dataBooks[row][3] = (rs.getString("LNAME"));
-                    dataBooks[row][4] = (rs.getString("EMAIL"));
-                    System.out.println(rs.getString("UID"));
-                    System.out.println(rs.getString("USERNAME"));
-                    System.out.println(rs.getString("FNAME"));
-                    System.out.println(rs.getString("EMAIL"));
-                    System.out.println(rs.getString("LNAME"));
+                dataBooks[row][0] = (rs.getString("UID"));
+                dataBooks[row][1] = (rs.getString("USERNAME"));
+                dataBooks[row][2] = (rs.getString("FNAME"));
+                dataBooks[row][3] = (rs.getString("LNAME"));
+                dataBooks[row][4] = (rs.getString("EMAIL"));
                 row++;
             }
             setListUsersDTM(new DefaultTableModel(dataBooks, headerBooks));
-
 
             rs.close();
             stmt.close();
@@ -342,16 +349,14 @@ public class READ {
     }
 
     public void showIssuedBooks() throws SQLException, ClassNotFoundException, ParseException {
-        Connection         c = Database.getConnectionLibrary();
-        Statement          s = c.createStatement();
-        String             q = "SELECT * FROM issued";
-        PreparedStatement ps = c.prepareStatement(q,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet         rs = ps.executeQuery();
-        System.out.println("RSLAST -> " + rs.last());
-        int              row = 0;
-        int           numRow = rs.getRow();
-        System.out.println("THE RSGETROW = " + numRow);
-        String [] header = {
+        Connection c = Database.getConnectionLibrary();
+        String q = "SELECT * FROM issued";
+        PreparedStatement ps = c.prepareStatement(q, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = ps.executeQuery();
+        rs.last();
+        int row = 0;
+        int numRow = rs.getRow();
+        String[] header = {
                 "IID",
                 "BID",
                 "UID",
@@ -360,68 +365,51 @@ public class READ {
                 "PERIOD",
                 "FINE"
         };
-        String [][] data = new String[numRow][7];
+        String[][] data = new String[numRow][7];
         rs.beforeFirst();
-        while (rs.next()){
+        while (rs.next()) {
             data[row][0] = String.valueOf(rs.getInt("IID"));
-            data[row][1] = String.valueOf(rs.getInt("UID"));
-            data[row][2] = String.valueOf(rs.getInt("BID"));
+            data[row][1] = String.valueOf(rs.getInt("BID"));
+            data[row][2] = String.valueOf(rs.getInt("UID"));
             data[row][3] = rs.getString("ISSUED_DATE");
             data[row][4] = rs.getString("RETURN_DATE");
             data[row][5] = rs.getString("PERIOD");
-            data[row][6] = String.valueOf(calculateFine(rs.getInt("PERIOD"),getCurrentDate(),rs.getString("ISSUED_DATE")));
+            data[row][6] = String.valueOf(rs.getInt("FINE"));
             row++;
         }
-        for (String [] ddata:
-             data) {
-            for (String get : ddata){
-                System.out.println(get);
-            }
-        }
+        setIssuedBooksDTM(new DefaultTableModel(data, header));
         c.close();
-        s.close();
         rs.close();
     }
     // Method that will return double data type, it will
     public double calculateFine(int period, String rtrnDate, String issuedDate) throws ParseException {
         //  Parse the date strings into Date objects
         Date issued = new SimpleDateFormat("MM-dd-yyyy").parse(issuedDate);
-        Date rtrn   = new SimpleDateFormat("MM-dd-yyyy").parse(rtrnDate);
+        Date rtrn = new SimpleDateFormat("MM-dd-yyyy").parse(rtrnDate);
         int periodToMilleseconds = period * 24 * 60 * 60 * 1000;
         //  Calculate the difference between the return date and the issued date in milliseconds
-        long timeDifference   = Math.abs(rtrn.getTime() - issued.getTime());
-        long diffRtrnAndIssued_to_ms = Math.abs((timeDifference-periodToMilleseconds)/1000/60/60/24);
+        long timeDifference = Math.abs(rtrn.getTime() - issued.getTime());
+        long diffRtrnAndIssuedToDay = Math.abs((timeDifference - periodToMilleseconds) / 1000 / 60 / 60 / 24);
         //  Initialize the fine to 0
-        double theFine = 0d;
+        double fine = 0d;
         //
-        if ( timeDifference > periodToMilleseconds ){
+        if (timeDifference > periodToMilleseconds) {
             double finePerDay = 5;
             //calculate the new value to theFine
-            theFine = Math.abs(finePerDay *
-                        //Converted to Day
-                            (diffRtrnAndIssued_to_ms));
-            return theFine;
-        }
-        else {
-            return theFine;
+            fine = Math.abs(finePerDay *
+                    (diffRtrnAndIssuedToDay));
+            return fine;
+        } else {
+            return fine;
         }
     }
-    public String getCurrentDate (){
-            // Get the current date
-            LocalDate currentDate = LocalDate.now();
-
-            // Define the date format
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-
-            // Format the current date using the defined format
-            String formattedDate = currentDate.format(dateFormat);
-
-            return  formattedDate;
-    }
-}
-class m{
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
-        READ r = new READ();
-        r.showIssuedBooks();
+    public String getCurrentDate() {
+        // Get the current date
+        LocalDate currentDate = LocalDate.now();
+        // Define the date format
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        // Format the current date using the defined format
+        String formattedDate = currentDate.format(dateFormat);
+        return formattedDate;
     }
 }
