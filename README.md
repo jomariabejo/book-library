@@ -53,7 +53,7 @@ displays all borrowed books
 ![Admin](https://github.com/jomariabejo/book-library/blob/master/images/gui_img/8.5_adminAddNewBook.png)
 
 ##  Admin View Books
-![Admin](https://github.com/jomariabejo/book-library/blob/master/images/gui_img/8.5_adminAddNewBook.png)
+![Admin](https://github.com/jomariabejo/book-library/blob/master/images/gui_img/8.5_adminViewBooks.png)
 
 ##  Admin Issue Book
 ![Admin](https://github.com/jomariabejo/book-library/blob/master/images/gui_img/8.6_adminIssueBook.png)
