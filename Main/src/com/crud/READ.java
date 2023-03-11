@@ -1,6 +1,6 @@
 package com.crud;
 
-import com.main.database.Database;
+import com.database.Database;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -12,30 +12,30 @@ import java.util.Date;
 
 public class READ {
 
-    private boolean isAdmin;
-    private boolean isUser;
+    private boolean admin;
+    private boolean user;
     private boolean isPassword;
     private String getUsername;
     private String getPassword;
     private String getFirstName;
     private String getLastName;
     private String getEmail;
-    private int ID;
+    private String ID;
 
     public boolean isAdmin() {
-        return isAdmin;
+        return admin;
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 
     public boolean isUser() {
-        return isUser;
+        return user;
     }
 
     public void setUser(boolean user) {
-        isUser = user;
+        this.user = user;
     }
 
     public boolean isPassword() {
@@ -62,11 +62,11 @@ public class READ {
         this.getPassword = getPassword;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
@@ -94,63 +94,16 @@ public class READ {
         this.getEmail = getEmail;
     }
 
-    public void printBooks() throws SQLException {
-        try {
-            Connection conn = Database.getConnectionLibrary();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM books";
-            PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            boolean result = stmt.execute(query);
-
-            while (rs.next()) {
-                System.out.println(rs.getString("BNAME"));
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void check_admin_or_user(String username, String password) {
         try {
-            Connection conn = Database.getConnectionLibrary();
-            Statement stmt = conn.createStatement();
-            //            String query = "SELECT username, password, admin FROM users";
-            String query = "SELECT * FROM users WHERE USERNAME = '" + username + "' AND PASSWORD ='" + password + "'";
-            PreparedStatement pr = conn.prepareStatement(query);
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "SELECT * FROM users WHERE USERNAME = '" + username + "' AND PASSWORD ='" + password + "'";
+            PreparedStatement pr = c.prepareStatement(q);
             ResultSet rs = pr.executeQuery();
-            boolean result = stmt.execute(query);
 
-            reset_isUser_isAdmin_isPassword();
+            resetUserAdminPassword();
             while (rs.next()) {
-                /*
-                    Check if USERNAME AND PASSWORD EQUALS TO
-                    database USERS
-                        IF
-                            username == db.users.username
-                            &&
-                            password == db.users.password
-                                setUser  = true
-                                setAdmin = false
-                                ACCOUNT USER FOUND
-                        ELSE IF
-                            db.users.admin = true
-                                setUser  = false
-                                setAdmin = true
-                                ACCOUNT ADMIN FOUND
-                        ELSE
-                            IF
-                                username == db.username
-                                and
-                                password != db.password
-                                    setUser  = false
-                                    setAdmin = false
-                            ELSE
-                                ACCOUNT NOT FOUND
-                */
                 if (username.equals(rs.getString("USERNAME")) &&
                         password.equals(rs.getString("PASSWORD"))
                 ) {
@@ -162,27 +115,34 @@ public class READ {
 
                     setUser(true);
                     setPassword(true);
-                    setID(rs.getInt("UID"));
                     if (rs.getString("USERNAME").equals("admin")) {
                         setUser(false);
                         setAdmin(true);
                     }
-                } else {
+                    setID(rs.getString("UID"));
+                    break;
+                }
+                else {
                     if (username.equals(rs.getString("USERNAME")) &&
                             !password.equals(rs.getString("PASSWORD"))) {
                         setPassword(false);
-                    } else if (!username.equals(rs.getString("USERNAME")) &&
+                    }
+                    else if (!username.equals(rs.getString("USERNAME")) &&
                             !password.equals(rs.getString("PASSWORD"))) {
                         setPassword(false);
                     }
                 }
+
             }
+            c.close();
+            s.close();
+            rs.close();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void reset_isUser_isAdmin_isPassword() {
+    public void resetUserAdminPassword() {
         setPassword(false);
         setAdmin(false);
         setUser(false);
@@ -200,18 +160,10 @@ public class READ {
 
     public void showBooks() {
         try {
-            //            Connection conn = Database.getConnectionLibrary();
-            //            Statement stmt = conn.createStatement();
-            //            String query = "SELECT * FROM books";
-            //            PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //            ResultSet rs = ps.executeQuery();
-            //            int numRow = rs.getRow();
-            //            rs.beforeFirst();
-            //            int row = 0;
-            Connection conn = Database.getConnectionLibrary();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM books";
-            PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "SELECT * FROM books";
+            PreparedStatement ps = c.prepareStatement(q, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             rs.last();
             int numRow = rs.getRow();
@@ -233,8 +185,49 @@ public class READ {
             }
             setBooksDTM(new DefaultTableModel(dataBooks, headerBooks));
             rs.close();
-            stmt.close();
-            conn.close();
+            s.close();
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public DefaultTableModel borrowedBooksDTM = new DefaultTableModel();
+
+    public DefaultTableModel getBorrowedBooksDTM() {
+        return borrowedBooksDTM;
+    }
+
+    public void setBorrowedBooksDTM(DefaultTableModel borrowedBooksDTM) {
+        this.borrowedBooksDTM = borrowedBooksDTM;
+    }
+
+    public void userBorrowedBooks(String UID) {
+        try {
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "SELECT `IID`,`RETURN_DATE`,`ISSUED_DATE`,`PERIOD` FROM `issued` WHERE `UID`="+UID+" AND "+ "`RETURN_DATE`= ''";
+            PreparedStatement ps = c.prepareStatement(q,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            rs.last();
+            int numRow = rs.getRow();
+            rs.beforeFirst();
+            int row = 0;
+            String[] headerBooks = {
+                    "IID",
+                    "ISSUED_DATE",
+                    "PERIOD"
+            };
+            String[][] dataBooks = new String[numRow][3];
+            while (rs.next()) {
+                dataBooks[row][0] = (rs.getString("IID"));
+                dataBooks[row][1] = (rs.getString("ISSUED_DATE"));
+                dataBooks[row][2] = (rs.getString("PERIOD"));
+                row++;
+            }
+            setBorrowedBooksDTM(new DefaultTableModel(dataBooks,headerBooks));
+            rs.close();
+            s.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -261,10 +254,10 @@ public class READ {
 
     public void usersBooks(String UID) throws SQLException {
         try {
-            Connection conn = Database.getConnectionLibrary();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM ISSUED WHERE UID = " + UID;
-            PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "SELECT * FROM ISSUED WHERE UID = " + UID;
+            PreparedStatement ps = c.prepareStatement(q, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             rs.last();
             int numRow = rs.getRow();
@@ -291,18 +284,18 @@ public class READ {
             }
             setUsersBooksDTM(new DefaultTableModel(dataBooks, headerBooks));
             rs.close();
-            stmt.close();
-            conn.close();
+            s.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void showUsers() {
         try {
-            Connection conn = Database.getConnectionLibrary();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM users";
-            PreparedStatement ps = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "SELECT * FROM users";
+            PreparedStatement ps = c.prepareStatement(q, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             rs.last();
             int numRow = rs.getRow();
@@ -331,8 +324,8 @@ public class READ {
             setListUsersDTM(new DefaultTableModel(dataBooks, headerBooks));
 
             rs.close();
-            stmt.close();
-            conn.close();
+            s.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -350,7 +343,7 @@ public class READ {
 
     public void showIssuedBooks() throws SQLException, ClassNotFoundException, ParseException {
         Connection c = Database.getConnectionLibrary();
-        String q = "SELECT * FROM issued";
+        String     q = "SELECT * FROM issued";
         PreparedStatement ps = c.prepareStatement(q, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = ps.executeQuery();
         rs.last();
@@ -381,7 +374,6 @@ public class READ {
         c.close();
         rs.close();
     }
-    // Method that will return double data type, it will
     public double calculateFine(int period, String rtrnDate, String issuedDate) throws ParseException {
         //  Parse the date strings into Date objects
         Date issued = new SimpleDateFormat("MM-dd-yyyy").parse(issuedDate);
@@ -411,5 +403,14 @@ public class READ {
         // Format the current date using the defined format
         String formattedDate = currentDate.format(dateFormat);
         return formattedDate;
+    }
+}
+class asdf{
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        READ r = new READ();
+        CREATE c = new CREATE();
+//        r.userBorrowedBooks("10","");
+//        c.issueBook("10","1","03-10-2023","10");
+        r.showBooks();
     }
 }

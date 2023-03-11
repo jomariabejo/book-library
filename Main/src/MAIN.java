@@ -1,7 +1,7 @@
 import com.crud.*;
 import com.main.Admin.*;
 import com.main.Users.*;
-import com.main.database.Database;
+import com.database.Database;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class MAIN {
      */
     static USERS_HOMEPAGE users_homepage = new USERS_HOMEPAGE();
     static USERS_PROFILE users_profile = new USERS_PROFILE();
-    static USERS_BOOKS users_books = new USERS_BOOKS();
+    static USERS_BOOKS users_borrowedBooks = new USERS_BOOKS();
     static USERS_VIEWBOOKS users_viewBooks = new USERS_VIEWBOOKS();
 
     /*
@@ -96,6 +96,8 @@ public class MAIN {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Forgot Password Clicked");
+                login.getTxtField_username().setText("");
+                login.getPwdField_password().setText("");
                 forgotPwd.setVisible(true);
                 login.dispose();
             }
@@ -305,6 +307,8 @@ public class MAIN {
                             String.valueOf(forgotPwd.getPwd_recovery_phrase().getPassword()));
                     JOptionPane.showMessageDialog(forgotPwd.getPanelMain(),
                             update.getResetpasswordMessage());
+                    forgotPwd.getTxtField_username().setText("");
+                    forgotPwd.getPwd_recovery_phrase().setText("");
                     forgotPwd.dispose();
                     login.setVisible(true);
                 } catch (Exception eResetPassword) {
@@ -344,9 +348,9 @@ public class MAIN {
                 read.showBooks();
                 users_viewBooks.getBooksTable().setModel(read.getBooksDTM());
                 users_viewBooks.getJscroll().getViewport().add(
-                        users_viewBooks.getBooksTable());
+                users_viewBooks.getBooksTable());
                 TableColumnModel columnModel =
-                        users_viewBooks.getBooksTable().getColumnModel();
+                    users_viewBooks.getBooksTable().getColumnModel();
                 columnModel.getColumn(0).setPreferredWidth(25);
                 columnModel.getColumn(1).setPreferredWidth(420);
                 columnModel.getColumn(2).setPreferredWidth(100);
@@ -364,21 +368,21 @@ public class MAIN {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("My Books Clicked");
                 String UID = String.valueOf(read.getID());
-                try {
-                    read.usersBooks(UID);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                users_books.getMyBooksTable().setModel(read.getUsersBooksDTM());
-                users_books.getjScrollpane().getViewport().add(
-                        users_books.getMyBooksTable());
+                System.out.println("UID -> " + UID);
+                read.userBorrowedBooks(UID);
+                users_borrowedBooks.getMyBooksTable().setModel(read.getBorrowedBooksDTM());
+                users_borrowedBooks.getjScrollpane().getViewport().add(users_borrowedBooks.getMyBooksTable());
 
                 TableColumnModel columnModel =
-                        users_books.getMyBooksTable().getColumnModel();
+                        users_borrowedBooks.getMyBooksTable().getColumnModel();
                 columnModel.getColumn(0).setPreferredWidth(200);
                 columnModel.getColumn(1).setPreferredWidth(200);
                 columnModel.getColumn(2).setPreferredWidth(200);
-                users_books.setVisible(true);
+                users_borrowedBooks.getMyBooksTable().getTableHeader().setFont(
+                        new Font("Dialog", Font.BOLD, 18));
+                users_borrowedBooks.getMyBooksTable().setRowHeight(0, 60);
+                users_borrowedBooks.getMyBooksTable().setRowHeight(40);
+                users_borrowedBooks.setVisible(true);
                 users_homepage.dispose();
             }
         });
@@ -394,7 +398,7 @@ public class MAIN {
             }
         });
         /*
-         *  My Profile
+         *  User_Profile
          */
 
         users_profile.getEditButton().addActionListener(new ActionListener() {
@@ -468,15 +472,15 @@ public class MAIN {
         });
 
         /*
-         *  Books
+         *  USERS_BOOKS
          */
 
-        users_books.getGoBackButton().addActionListener(new ActionListener() {
+        users_borrowedBooks.getGoBackButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Go Back Clicked");
                 users_homepage.setVisible(true);
-                users_books.dispose();
+                users_borrowedBooks.dispose();
             }
         });
 
@@ -517,57 +521,55 @@ public class MAIN {
         ActionListener listenerAdminHomepage = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame[] changeFrame = new JFrame[8];
-                changeFrame[0] = viewbooks;
-                changeFrame[1] = viewusers;
-                changeFrame[2] = viewissuedbooks;
-                changeFrame[3] = issuebook;
-                changeFrame[4] = adduser;
-                changeFrame[5] = addbook;
-                changeFrame[6] = returnbook;
-                changeFrame[7] = reset;
-                String[] arrAdminHomepageButtons = {
-                        "View Books",
-                        "View Users",
-                        "View Issued Books",
-                        "Issue Book",
-                        "Add User",
-                        "Add Book",
-                        "Return Book",
-                        "Clear Table",
-                };
-                System.out.println(e.getActionCommand());
-                for (int c = 0; c < arrAdminHomepageButtons.length; c++) {
-                    if (e.getActionCommand().equals(arrAdminHomepageButtons[c])) {
-                        changeFrame[c].setVisible(true);
-                        System.out.println(e.getActionCommand());
-                        if (arrAdminHomepageButtons[c].equals("View Books")) {
-                            read.showBooks();
-                            viewbooks.getTbl_ViewBooks().setModel(read.getBooksDTM());
-                            viewbooks.getjScrollPane().getViewport().add(
-                                    viewbooks.getTbl_ViewBooks());
-                        } else if (arrAdminHomepageButtons[c].equals("View Users")) {
-                            read.showUsers();
-                            viewusers.getUsersTable().setModel(read.getListUsersDTM());
-                            viewusers.getjScrollpane().getViewport().add(
-                                    viewusers.getUsersTable());
-                        } else if (arrAdminHomepageButtons[c].equals("View Issued Books")) {
-                            System.out.println("HELLO");
-                            try {
-                                read.showIssuedBooks();
-                                viewissuedbooks.getTbl_IssuedBooks().setModel(read.getIssuedBooksDTM());
-                                viewissuedbooks.getjScroll().getViewport().add(
-                                        viewissuedbooks.getTbl_IssuedBooks());
-                            } catch (Exception ExceptionOnIssuedBooks) {
-                                ExceptionOnIssuedBooks.printStackTrace();
-                            }
-                        } else if (arrAdminHomepageButtons[c].equals("Issue Book")) {
-                            System.out.println("Issue Book Clicked");
-                        } else if (arrAdminHomepageButtons[c].equals("Clear Table")) {
-                            reset.setVisible(true);
-                            admin_homepage.dispose();
-                        }
+                if (("View Books").equals(e.getActionCommand())) {
+                    read.showBooks();
+                    viewbooks.getTbl_ViewBooks().setModel(read.getBooksDTM());
+                    viewbooks.getjScrollPane().getViewport().add(
+                    viewbooks.getTbl_ViewBooks());
+                    viewbooks.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("View Users").equals(e.getActionCommand())) {
+                    read.showUsers();
+                    viewusers.getUsersTable().setModel(read.getListUsersDTM());
+                    viewusers.getjScrollpane().getViewport().add(
+                    viewusers.getUsersTable());
+                    viewusers.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("View Issued Books").equals(e.getActionCommand())){
+                    try {
+                        read.showIssuedBooks();
+                        viewissuedbooks.getTbl_IssuedBooks().setModel(read.getIssuedBooksDTM());
+                        viewissuedbooks.getjScroll().getViewport().add(
+                        viewissuedbooks.getTbl_IssuedBooks());
+                        viewissuedbooks.setVisible(true);
+                        admin_homepage.dispose();
+
+                    } catch (Exception ExceptionOnIssuedBooks) {
+                        ExceptionOnIssuedBooks.printStackTrace();
                     }
+                }
+                if (("Issue Book").equals(e.getActionCommand())) {
+                    System.out.println("Issue Book Clicked");
+                    issuebook.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("Clear Table").equals(e.getActionCommand())) {
+                    reset.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("Add User").equals(e.getActionCommand())){
+                    adduser.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("Add Book").equals(e.getActionCommand())){
+                    addbook.setVisible(true);
+                    admin_homepage.dispose();
+                }
+                if (("Return Book").equals(e.getActionCommand())){
+                    returnbook.setVisible(true);
+                    admin_homepage.dispose();
                 }
             }
         };
@@ -596,7 +598,7 @@ public class MAIN {
                     adduser.clearFields();
                 } else {
                     System.out.println("Add User");
-                    create.admin_create_user(adduser.uname(), adduser.fname(),
+                    create.createUser(adduser.uname(), adduser.fname(),
                             adduser.lname(), adduser.email());
                     JOptionPane.showMessageDialog(adduser.getPanelMain(),
                             create.isDuplicate() ? ("Account already Exist") :

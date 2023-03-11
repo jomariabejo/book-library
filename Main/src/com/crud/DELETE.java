@@ -1,6 +1,6 @@
 package com.crud;
 
-import com.main.database.Database;
+import com.database.Database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ public class DELETE {
         Connection c = Database.getConnectionLibrary();
         Statement s = c.createStatement();
         s.executeUpdate("DELETE FROM books");
+        s.execute("ALTER TABLE books  AUTO_INCREMENT = 0;");
         c.close();
         s.close();
     }
@@ -18,6 +19,7 @@ public class DELETE {
         Connection c = Database.getConnectionLibrary();
         Statement s = c.createStatement();
         s.executeUpdate("DELETE FROM issued");
+        s.execute("ALTER TABLE issued AUTO_INCREMENT = 0;");
         c.close();
         s.close();
     }
@@ -27,8 +29,6 @@ public class DELETE {
         Statement s = c.createStatement();
         s.executeUpdate("DELETE FROM users");
         s.execute("ALTER TABLE users  AUTO_INCREMENT = 0;");
-        s.execute("ALTER TABLE issued AUTO_INCREMENT = 0;");
-        s.execute("ALTER TABLE books  AUTO_INCREMENT = 0;");
         c.close();
         s.close();
     }

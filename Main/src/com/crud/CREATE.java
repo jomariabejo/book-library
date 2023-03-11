@@ -1,14 +1,13 @@
 package com.crud;
 
-import com.main.database.Database;
+import com.database.Database;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class CREATE {
 
     private String username, password, secret_recovery_phrase;
-    private boolean isDuplicate;
+    private boolean duplicate;
 
     public String getUsername() {
         return username;
@@ -35,11 +34,11 @@ public class CREATE {
     }
 
     public boolean isDuplicate() {
-        return isDuplicate;
+        return duplicate;
     }
 
     public void setDuplicate(boolean duplicate) {
-        isDuplicate = duplicate;
+        this.duplicate = duplicate;
     }
 
     public void reset_duplicate_password_phrase() {
@@ -51,11 +50,10 @@ public class CREATE {
 
     public void insert_user(String username, String password, String secret_recovery_phrase, String fname, String lname, String email) {
         try {
-            System.out.println("calling db ->>" + Database.getConnectionLibrary());
-            Connection conn = Database.getConnectionLibrary();
-            System.out.println(conn);
-            Statement stmt = conn.createStatement();
-            String query = "INSERT INTO `users`(`USERNAME`, `PASSWORD`, `secretRecoveryPhrase`, `FNAME`, `LNAME`, `EMAIL`) VALUES " +
+            Connection c = Database.getConnectionLibrary();
+            System.out.println(c);
+            Statement s = c.createStatement();
+            String q = "INSERT INTO `users`(`USERNAME`, `PASSWORD`, `secretRecoveryPhrase`, `FNAME`, `LNAME`, `EMAIL`) VALUES " +
                     "('" + username + "'" +
                     "," +
                     "'" + password + "'" +
@@ -67,10 +65,10 @@ public class CREATE {
                     "'" + lname + "'" +
                     "," +
                     "'" + email + "'" + ")";
-            PreparedStatement ps = conn.prepareStatement(query);
+            PreparedStatement ps = c.prepareStatement(q);
             ps.execute();
-            stmt.close();
-            conn.close();
+            s.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().equals("Duplicate entry '" + username + "' for key 'USERNAME'")) {
@@ -78,13 +76,11 @@ public class CREATE {
             } else setDuplicate(false);
         }
     }
-    public void admin_create_user(String uname, String fname, String lname, String email) {
+    public void createUser(String uname, String fname, String lname, String email) {
         try {
-            System.out.println("calling db ->>" + Database.getConnectionLibrary());
-            Connection conn = Database.getConnectionLibrary();
-            System.out.println(conn);
-            Statement stmt = conn.createStatement();
-            String query = "INSERT INTO `users`(`USERNAME`,`FNAME`, `LNAME`, `PASSWORD` ,`EMAIL`) VALUES " +
+            Connection c = Database.getConnectionLibrary();
+            Statement  s = c.createStatement();
+            String     q = "INSERT INTO `users`(`USERNAME`,`FNAME`, `LNAME`, `PASSWORD` ,`EMAIL`) VALUES " +
                     "('" + uname + "'" +
                     "," +
                     "'" + fname + "'" +
@@ -95,10 +91,10 @@ public class CREATE {
                     "," +
                     "'" + email + "'" + ")";
 
-            PreparedStatement ps = conn.prepareStatement(query);
+            PreparedStatement ps = c.prepareStatement(    q);
             ps.execute();
-            stmt.close();
-            conn.close();
+            s.close();
+            c.close();
         } catch (Exception e) {
             if (e.getMessage().equals("Duplicate entry '" + username + "' for key 'USERNAME'")) {
                 setDuplicate(true);
@@ -128,12 +124,16 @@ public class CREATE {
         try {
 
             Connection c = Database.getConnectionLibrary();
-            String str = "INSERT INTO `issued`(`UID`, `BID`, `ISSUED_DATE`, `PERIOD`) VALUES " +
+            String str = "INSERT INTO `issued`(`UID`, `BID`, `ISSUED_DATE`,`RETURN_DATE`,`FINE`, `PERIOD`) VALUES " +
                     "('" + UID + "'" +
                     "," +
                     "'" + BID + "'" +
                     "," +
                     "'" + ISSUED_DATE + "'" +
+                    "," +
+                    "'" + "" + "'" +
+                    "," +
+                    "'" + 0 + "'" +
                     "," +
                     "'" + PERIOD + "'" + ")";
             PreparedStatement ps = c.prepareStatement(str);
@@ -147,7 +147,6 @@ public class CREATE {
     public void insertAdmin() throws SQLException, ClassNotFoundException {
         try {
             Connection c = Database.getConnectionLibrary();
-            Statement s = c.createStatement();
             //        ALTER TABLE tablename AUTO_INCREMENT = value;
             String q = "INSERT INTO " +
                     "`users`(`USERNAME`, `PASSWORD`, `FNAME`,`LNAME`,`EMAIL`,`secretRecoveryPhrase`) VALUES ('admin','admin','admin','admin','admin@gmail.com','useradmin'" + ")";
